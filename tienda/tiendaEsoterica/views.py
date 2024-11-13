@@ -5,6 +5,13 @@ from .models import Perfil
 
 from django.shortcuts import render
 
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def perfil(request):
+    return render(request, 'tiendaEsoterica/perfil.html')
+
+
 def home(request):
     return render(request, 'tiendaEsoterica/home.html')
 
