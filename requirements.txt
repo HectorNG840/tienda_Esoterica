@@ -1,1 +1,1 @@
-django==5.1.3exi
+django==5.1.3
