@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Esotérica</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Bienvenido Tienda Esotérica Misterio</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Iniciar sesión</a></li>
+                <li><a href="{% url 'home' %}">Registrarse</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Escaparate de Productos</h1>
+        <div class="product-grid">
+            {% for product in products %}
+                <div class="product-item">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <h2>{{ product.name }}</h2>
+                    <p>{{ product.description }}</p>
+                    <p>Precio: {{ product.price }} €</p>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>
