@@ -1,4 +1,11 @@
 <h1>Bienvenido a la Tienda Esotérica</h1>
-<p>Esta es la página principal.</p>
-<a href="{% url 'login' %}">Iniciar Sesión</a>
-<a href="{% url 'register' %}">Registrarse</a>
+
+{% if user.is_authenticated %}
+    <p>Hola, {{ user.username }}!</p>
+    <a href="{% url 'logout' %}">Cerrar Sesión</a>
+    <a href="{% url 'perfil' %}">Ver Perfil</a> <!-- Suponiendo que tengas una página de perfil -->
+{% else %}
+    <p>Bienvenido, visitante. Por favor, inicia sesión o regístrate.</p>
+    <a href="{% url 'login' %}">Iniciar Sesión</a>
+    <a href="{% url 'register' %}">Registrarse</a>
+{% endif %}
