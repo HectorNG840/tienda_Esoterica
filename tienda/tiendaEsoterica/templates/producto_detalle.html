@@ -1,0 +1,20 @@
+<!-- FILE: tiendaEsoterica/templates/producto_detalle.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}{{ producto.nombre }} - Tienda Esotérica{% endblock %}
+
+{% block content %}
+<section class="producto-detalle">
+  <div class="producto-imagen">
+    <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+  </div>
+  <div class="producto-info">
+    <h1>{{ producto.nombre }}</h1>
+    <p class="categoria">{{ producto.categoria.nombre }}</p>
+    <p>{{ producto.descripcion }}</p>
+    <p>Precio: {{ producto.precio }} €</p>
+    <button class="add-to-cart">Añadir a la cesta</button>
+  </div>
+</section>
+{% endblock %}
