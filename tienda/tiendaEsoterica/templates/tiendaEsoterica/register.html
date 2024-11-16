@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Usuario</title>
+    <title>Tienda Esotérica</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,6 +13,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            position: relative;
         }
         .register-container {
             background-color: #fff;
@@ -21,6 +22,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 400px;
+            box-sizing: border-box;
         }
         h2 {
             color: #333;
@@ -28,18 +30,21 @@
         }
         .form-group {
             margin-bottom: 15px;
+            position: relative;
         }
         label {
             display: block;
             font-weight: bold;
             margin-bottom: 5px;
         }
-        input[type="text"], input[type="password"] {
-            width: 100%;
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: calc(100% - 20px);
             padding: 10px;
+            margin: 0 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 16px;
+            box-sizing: border-box;
         }
         .form-error {
             color: #e74c3c;
@@ -59,21 +64,90 @@
         .form-button:hover {
             background-color: #45a049;
         }
+        .password-help {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 0.85em;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .password-help ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .password-help ul li {
+            margin-bottom: 5px;
+        }
+        input:focus + .password-help {
+            display: block;
+        }
         .login-link {
             text-align: center;
             margin-top: 10px;
         }
+        .home-link {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+        }
+        .home-link a {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #007BFF, #0056b3);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .home-link a:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
+    <div class="home-link">
+        <a href="{% url 'home' %}">Página Principal</a>
+    </div>
     <div class="register-container">
-        <h2>Registro de Usuario</h2>
+        <h2>Registro</h2>
         <form method="post" novalidate>
             {% csrf_token %}
             {% for field in form %}
                 <div class="form-group">
-                    {{ field.label_tag }}
+                    <label for="{{ field.id_for_label }}">
+                        {% if field.name == "username" %}
+                            Usuario
+                        {% elif field.name == "password1" %}
+                            Contraseña
+                        {% elif field.name == "password2" %}
+                            Confirmar Contraseña
+                        {% endif %}
+                    </label>                    
                     {{ field }}
+                    {% if field.name == "password1" %}
+                        <div class="password-help">
+                            <p>Tu contraseña debe cumplir los siguientes requisitos:</p>
+                            <ul>
+                                <li>Tener al menos 8 caracteres.</li>
+                                <li>Incluir al menos una letra mayúscula.</li>
+                                <li>Incluir al menos un número.</li>
+                                <li>Incluir al menos un carácter especial (ej.: @, #, $, %).</li>
+                            </ul>
+                        </div>
+                    {% endif %}
                     {% if field.errors %}
                         <div class="form-error">{{ field.errors|striptags }}</div>
                     {% endif %}
