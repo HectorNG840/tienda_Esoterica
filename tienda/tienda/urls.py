@@ -1,24 +1,33 @@
-"""
-URL configuration for tienda project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 from tiendaEsoterica import views
+from tiendaEsoterica.admin import admin
 
 urlpatterns = [
+    # URL para el inicio de sesión
+    path('login/', auth_views.LoginView.as_view(template_name='tiendaEsoterica/login.html'), name='login'),
+    
+    # URL para el cierre de sesión
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    
+    # URL para el registro
+    path('register/', views.register, name='register'),
+
+    # Página principal
+    path('', views.home, name='home'),  
+
+    # Perfil del usuario
+    path('perfil/', views.perfil, name='perfil'),
+
+    # Página de administración
     path('admin/', admin.site.urls),
-    path('', views.inicio, name='inicio'),
+
+    # Página de inicio de la tienda y detalles del producto
+    path('inicio/', views.inicio, name='inicio'),  
+    path('producto/<int:pk>/', views.producto_detalle, name='producto_detalle'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

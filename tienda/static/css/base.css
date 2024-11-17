@@ -1,0 +1,159 @@
+/* FILE: tiendaEsoterica/static/css/base.css */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav.appnavbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+nav.appnavbar .logo img {
+    height: 50px;
+}
+
+nav.appnavbar .search-bar {
+    flex: 1;
+    margin: 0 20px;
+}
+
+nav.appnavbar .search-bar input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+}
+
+nav.appnavbar .nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+nav.appnavbar .nav-links a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+nav.appnavbar .nav-links a:hover {
+    background-color: #555;
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+.product-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    width: calc(33.333% - 20px);
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.product-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.product-item h3 {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.product-item p {
+    margin: 5px 0;
+}
+
+.product-item .add-to-cart,
+.producto-info .add-to-cart {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.product-item .add-to-cart:hover,
+.producto-info .add-to-cart:hover {
+    background-color: #555;
+}
+.producto-detalle {
+    display: flex;
+    align-items: flex-start;
+    margin: 20px;
+}
+
+.producto-imagen {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.producto-imagen img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.producto-info {
+    flex: 2;
+    margin-left: 20px;
+}
+
+.producto-info h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.producto-info .categoria {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.producto-info p {
+    margin-bottom: 10px;
+}
