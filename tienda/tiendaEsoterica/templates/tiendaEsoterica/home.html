@@ -1,11 +1,74 @@
-<h1>Bienvenido a la Tienda Esotérica</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a la Tienda Esotérica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .home-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #555;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .username {
+            font-weight: bold;
+            color: #007BFF;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #007BFF, #0056b3);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 10px 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .button:hover {
+            background: linear-gradient(90deg, #0056b3, #007BFF);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="home-container">
+        <h1>Bienvenido a la Tienda Esotérica</h1>
 
-{% if user.is_authenticated %}
-    <p>Hola, {{ user.username }}!</p>
-    <a href="{% url 'logout' %}">Cerrar Sesión</a>
-    <a href="{% url 'perfil' %}">Ver Perfil</a> <!-- Suponiendo que tengas una página de perfil -->
-{% else %}
-    <p>Bienvenido, visitante. Por favor, inicia sesión o regístrate.</p>
-    <a href="{% url 'login' %}">Iniciar Sesión</a>
-    <a href="{% url 'register' %}">Registrarse</a>
-{% endif %}
+        {% if user.is_authenticated %}
+            <p>Hola, <span class="username">{{ user.username }}</span>!</p>
+            <a href="{% url 'logout' %}" class="button">Cerrar Sesión</a>
+            <a href="{% url 'perfil' %}" class="button">Ver Perfil</a>
+        {% else %}
+            <p>Bienvenido, visitante. Por favor, inicia sesión o regístrate.</p>
+            <a href="{% url 'login' %}" class="button">Iniciar Sesión</a>
+            <a href="{% url 'register' %}" class="button">Registrarse</a>
+        {% endif %}
+    </div>
+</body>
+</html>
