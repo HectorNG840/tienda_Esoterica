@@ -13,6 +13,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            position: relative;
         }
         .profile-container {
             background-color: #fff;
@@ -53,13 +54,40 @@
             background: linear-gradient(90deg, #0056b3, #007BFF);
             transform: scale(1.05);
         }
+        .home-link {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+        }
+        .home-link a {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #007BFF, #0056b3);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .home-link a:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
+    <div class="home-link">
+        <a href="{% url 'inicio' %}">Página Principal</a>
+    </div>
     <div class="profile-container">
         <h2>Perfil de Usuario</h2>
         <p>Bienvenido, <span class="username">{{ user.username }}</span>. Esta es tu página de perfil.</p>
-        <a href="{% url 'logout' %}" class="logout-btn">Cerrar Sesión</a>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">Cerrar Sesión</button>
+        </form>
     </div>
 </body>
 </html>
