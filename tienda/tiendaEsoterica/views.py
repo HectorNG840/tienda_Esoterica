@@ -1,23 +1,13 @@
-
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
-from .models import Perfil
+from .models import Perfil, Producto, Categoria
 from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import render
-
 from django.contrib.auth.decorators import login_required
-
-from django.shortcuts import render, get_object_or_404
-from .models import Producto, Categoria
-
-
-@login_required  # Asegura que solo usuarios autenticados puedan acceder a `home`
-def home(request):
-    return render(request, 'tiendaEsoterica/home.html')
+from django.contrib.auth.models import User
+from .forms import CustomUserCreationForm, CustomAuthenticationForm
 
 
-@login_required
 def inicio(request):
     return render(request, 'tiendaEsoterica/inicio.html')
 
@@ -25,39 +15,50 @@ def inicio(request):
 def home(request):
     return render(request, 'tiendaEsoterica/home.html')
 
+
 @login_required
 def perfil(request):
     return render(request, 'tiendaEsoterica/perfil.html')
 
+
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            Perfil.objects.create(user=user)  # Crear un perfil vacío para el nuevo usuario
-            login(request, user)  # Iniciar sesión automáticamente después del registro
-            return redirect('perfil')  # Redirigir a la página de perfil
+            # Crear un nuevo usuario
+            user = User.objects.create_user(
+                username=form.cleaned_data['email'],
+                email=form.cleaned_data['email'],
+                password=form.cleaned_data['password1'],
+            )
+            user.save()
+            login(request, user)
+            return redirect('inicio')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'tiendaEsoterica/register.html', {'form': form})
+
 
 def custom_login_view(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
+        form = CustomAuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('inicio')  # Redirige a inicio después de iniciar sesión
+            return redirect('inicio')
     else:
-        form = AuthenticationForm()
+        form = CustomAuthenticationForm()
     return render(request, 'tiendaEsoterica/login.html', {'form': form})
+
+
 '''
 # Create your views here.
 def inicio(request):
     productos = Producto.objects.all()
     return render(request, 'inicio.html', {'productos': productos})
 '''
+
+
 def producto_detalle(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
     return render(request, 'producto_detalle.html', {'producto': producto})
-
