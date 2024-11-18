@@ -56,7 +56,7 @@ ROOT_URLCONF = 'tienda.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # Esta línea debe apuntar a la carpeta `templates`
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -135,10 +135,14 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# En settings.py
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'  # Almacena sesiones en cache
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Cierra sesión al cerrar el navegador
 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
-LOGIN_REDIRECT_URL = '/perfil'  # Cambia '/perfil/' por la URL de destino
+LOGIN_REDIRECT_URL = '/inicio/'  # Redirige a la página de inicio después de iniciar sesión
+LOGOUT_REDIRECT_URL = '/login/'  # Redirige a la página de login después de cerrar sesión
+
+
 
 
 

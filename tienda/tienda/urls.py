@@ -15,17 +15,13 @@ urlpatterns = [
     # URL para el registro
     path('register/', views.register, name='register'),
 
-    # Página principal
-    path('', views.home, name='home'),  
-
-    # Perfil del usuario
-    path('perfil/', views.perfil, name='perfil'),
-
-    # Página de administración
-    path('admin/', admin.site.urls),
-
-    # Página de inicio de la tienda y detalles del producto
-    path('inicio/', views.inicio, name='inicio'),  
+    # Redirige la URL raíz a la página de inicio de sesión
+    path('', auth_views.LoginView.as_view(template_name='tiendaEsoterica/login.html'), name='login'),
+    
+    # Página de inicio que se mostrará después de iniciar sesión
+    path('inicio/', views.inicio, name='inicio'),
+    
+    # Otras rutas, como detalles de productos
     path('producto/<int:pk>/', views.producto_detalle, name='producto_detalle'),
 ]
 
