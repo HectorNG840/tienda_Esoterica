@@ -11,6 +11,8 @@ urlpatterns = [
     
     # URL para el cierre de sesión
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+
+    path('admin/', admin.site.urls),
     
     # URL para el registro
     path('register/', views.register, name='register'),

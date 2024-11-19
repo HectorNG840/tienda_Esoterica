@@ -56,7 +56,7 @@ ROOT_URLCONF = 'tienda.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # Esta línea debe apuntar a la carpeta `templates`
+        'DIRS': [BASE_DIR / 'templates'],  # Asegúrate de que esta línea apunte a la carpeta donde están tus plantillas
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,6 +68,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'tienda.wsgi.application'
 

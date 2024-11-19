@@ -19,7 +19,9 @@ def home(request):
 
 @login_required
 def inicio(request):
-    return render(request, 'tiendaEsoterica/inicio.html')
+    productos = Producto.objects.all()  # Trae todos los productos
+    return render(request, 'tiendaEsoterica/inicio.html', {'productos': productos})
+
 
 
 def home(request):
