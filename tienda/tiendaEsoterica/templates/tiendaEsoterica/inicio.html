@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio - Tienda Esotérica</title>
-    <style>
-        /* Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+{% extends 'tiendaEsoterica/base.html' %}
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -204,37 +192,32 @@
     </nav>
 </header>
 
+{% block content %}
 <section class="hero">
-    <h1>Bienvenido a la Tienda Esotérica Misterio</h1>
-    <p>Descubre un mundo de magia, misticismo y espiritualidad.</p>
+  <h1>Bienvenido a la Tienda Esotérica Misterio</h1>
+  <p>Descubre un mundo de magia, misticismo y espiritualidad.</p>
 </section>
 
 <section class="about">
-    <h2>Sobre Nosotros</h2>
-    <p>En nuestra tienda esotérica, ofrecemos una amplia variedad de productos para ayudarte en tu viaje espiritual. Desde cristales y piedras preciosas hasta libros de magia y tarot, tenemos todo lo que necesitas para explorar el mundo esotérico.</p>
+  <h2>Sobre Nosotros</h2>
+  <p>En nuestra tienda esotérica, ofrecemos una amplia variedad de productos para ayudarte en tu viaje espiritual. Desde cristales y piedras preciosas hasta libros de magia y tarot, tenemos todo lo que necesitas para explorar el mundo esotérico.</p>
 </section>
 
 <section class="products">
-    <h2>Productos Destacados</h2>
-    <div class="product-grid">
-        {% for producto in productos %}
-            <div class="product-item">
-                <a href="{% url 'producto_detalle' producto.pk %}">
-                    <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
-                    <h3>{{ producto.nombre }}</h3>
-                </a>
-                <p class="categoria">{{ producto.categoria.nombre }}</p>
-                <p>{{ producto.descripcion }}</p>
-                <p><strong>Precio:</strong> {{ producto.precio }} €</p>
-                <button class="add-to-cart">Añadir a la cesta</button>
-            </div>
-        {% endfor %}
-    </div>
+  <h2>Productos Destacados</h2>
+  <div class="product-grid">
+    {% for producto in productos %}
+      <div class="product-item">
+        <a href="{% url 'producto_detalle' producto.pk %}">
+          <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+          <h3>{{ producto.nombre }}</h3>
+        </a>
+        <p class="categoria">{{ producto.categoria.nombre }}</p>
+        <p>{{ producto.descripcion }}</p>
+        <p>Precio: {{ producto.precio }} €</p>
+        <button class="add-to-cart">Añadir a la cesta</button>
+      </div>
+    {% endfor %}
+  </div>
 </section>
-
-<footer>
-    <p>&copy; 2024 Tienda Esotérica. Todos los derechos reservados.</p>
-</footer>
-
-</body>
-</html>
+{% endblock %}
