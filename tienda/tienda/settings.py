@@ -70,6 +70,7 @@ TEMPLATES = [
 ]
 
 
+
 WSGI_APPLICATION = 'tienda.wsgi.application'
 
 
@@ -137,11 +138,15 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # En settings.py
+# En settings.py
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'  # Almacena sesiones en cache
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Cierra sesión al cerrar el navegador
 
 LOGIN_REDIRECT_URL = '/'  # Redirige a la página de inicio después de iniciar sesión
 LOGOUT_REDIRECT_URL = '/login/'  # Redirige a la página de login después de cerrar sesión
+
+
+
 
 
 

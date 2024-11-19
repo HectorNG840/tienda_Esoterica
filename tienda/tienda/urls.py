@@ -11,6 +11,7 @@ urlpatterns = [
     # URL para el inicio de sesión
     path('login/', auth_views.LoginView.as_view(template_name='tiendaEsoterica/login.html'), name='login'),
     
+    
     # URL para el cierre de sesión
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 
@@ -23,6 +24,7 @@ urlpatterns = [
 
     
     # Otras rutas, como detalles de productos
+    path('producto/<int:pk>/', views.producto_detalle, name='producto_detalle'),
     path('producto/<int:pk>/', views.producto_detalle, name='producto_detalle'),
 ]
 
