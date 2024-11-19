@@ -15,5 +15,6 @@ RUN pip install -r requirements.txt
 # Copy project
 COPY . /code/
 
+RUN python manage.py collectstatic --noinput
 # Run the Django development server
 CMD ["python", "tienda/manage.py", "runserver", "0.0.0.0:8000"]
