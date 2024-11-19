@@ -4,13 +4,193 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio - Tienda Esotérica</title>
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* Navbar */
+        header {
+            background-color: #222;
+            padding: 15px 0;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #f5f5f5;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #FFD700;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-image: url('https://via.placeholder.com/1600x600');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 0.3em;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* About Section */
+        .about {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: #fff;
+        }
+
+        .about h2 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .about p {
+            font-size: 1.1em;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Products Section */
+        .products {
+            padding: 50px 20px;
+            text-align: center;
+            background-color: #f8f9fa;
+        }
+
+        .products h2 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 40px;
+        }
+
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .product-item {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 280px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-item h3 {
+            font-size: 1.5em;
+            color: #333;
+            margin: 15px 0;
+        }
+
+        .product-item p {
+            font-size: 0.9em;
+            color: #777;
+            margin: 5px 15px;
+        }
+
+        .product-item .categoria {
+            color: #FFD700;
+            font-weight: bold;
+            margin: 10px 15px;
+        }
+
+        .add-to-cart {
+            display: inline-block;
+            margin: 15px;
+            padding: 10px 20px;
+            background-color: #FFD700;
+            color: #333;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .add-to-cart:hover {
+            background-color: #FFC107;
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 <body>
+
 <header>
     <nav>
         <ul>
             <li><a href='/'>Inicio</a></li>
-            <li><a href='/usuarios'>Usuarios registrados</a></li>
+            <li><a href='/usuarios'>Usuarios Registrados</a></li>
             <li><a href='/productos'>Productos</a></li>
             <li><a href='/contacto'>Contacto</a></li>
         </ul>
@@ -45,11 +225,16 @@
                 </a>
                 <p class="categoria">{{ producto.categoria.nombre }}</p>
                 <p>{{ producto.descripcion }}</p>
-                <p>Precio: {{ producto.precio }} €</p>
+                <p><strong>Precio:</strong> {{ producto.precio }} €</p>
                 <button class="add-to-cart">Añadir a la cesta</button>
             </div>
         {% endfor %}
     </div>
 </section>
+
+<footer>
+    <p>&copy; 2024 Tienda Esotérica. Todos los derechos reservados.</p>
+</footer>
+
 </body>
 </html>
