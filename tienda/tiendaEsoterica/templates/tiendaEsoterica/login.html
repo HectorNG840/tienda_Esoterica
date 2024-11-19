@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Esotérica - Iniciar Sesión</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <div class="home-link">
+        <a href="{% url 'inicio' %}">Página Principal</a>
+    </div>
+    <div class="login-container">
+        <h2>Iniciar Sesión</h2>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">Correo</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="form-error">{{ form.username.errors|striptags }}</div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}">Contraseña</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <div class="form-error">{{ form.password.errors|striptags }}</div>
+                {% endif %}
+            </div>
+            {% if form.non_field_errors %}
+                <div class="form-error">{{ form.non_field_errors|striptags }}</div>
+            {% endif %}
+            <button type="submit" class="form-button">Iniciar Sesión</button>
+        </form>
+        <div class="register-link">
+            <p>¿No tienes una cuenta? <a href="{% url 'register' %}">Regístrate aquí</a></p>
+        </div>
+    </div>
+</body>
+</html>

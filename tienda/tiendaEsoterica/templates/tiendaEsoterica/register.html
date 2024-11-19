@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Esotérica - Registro</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+<body>
+    <div class="home-link">
+        <a href="{% url 'inicio' %}">Página Principal</a>
+    </div>
+    <div class="register-container">
+        <h2>Registro</h2>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">
+                        {% if field.name == "email" %}
+                            Correo
+                        {% elif field.name == "password1" %}
+                            Contraseña
+                        {% elif field.name == "password2" %}
+                            Confirmar Contraseña
+                        {% else %}
+                            {{ field.label }}
+                        {% endif %}
+                    </label>
+                    {{ field }}
+                    {% if field.name == "password1" %}
+                        <div class="password-help">
+                            <p>Tu contraseña debe cumplir los siguientes requisitos:</p>
+                            <ul>
+                                <li>Tener al menos 8 caracteres</li>
+                                <li>Incluir al menos una letra mayúscula</li>
+                                <li>Incluir al menos un número</li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                    {% if field.errors %}
+                        <div class="form-error">{{ field.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="form-button">Registrarse</button>
+        </form>
+        <div class="login-link">
+            <p>¿Ya tienes una cuenta? <a href="{% url 'login' %}">Inicia sesión aquí</a></p>
+        </div>
+    </div>
+</body>
+</html>
