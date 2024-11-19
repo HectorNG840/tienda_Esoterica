@@ -9,7 +9,7 @@ urlpatterns = [
         # Página de inicio que se mostrará después de iniciar sesión
     path('', views.inicio, name='inicio'),
     # URL para el inicio de sesión
-    path('login/', auth_views.LoginView.as_view(template_name='tiendaEsoterica/login.html'), name='login'),
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     
     
     # URL para el cierre de sesión

@@ -19,11 +19,11 @@ from .models import Producto, Categoria
 
 def inicio(request):
     productos = Producto.objects.all()  # Trae todos los productos
-    return render(request, 'tiendaEsoterica/inicio.html', {'productos': productos})
+    return render(request, 'inicio.html', {'productos': productos})
 
 @login_required
 def perfil(request):
-    return render(request, 'tiendaEsoterica/perfil.html')
+    return render(request, 'perfil.html')
 
 def register(request):
     if request.method == 'POST':
@@ -41,7 +41,7 @@ def register(request):
     else:
         form = UserCreationForm()
         form = UserCreationForm()
-    return render(request, 'tiendaEsoterica/register.html', {'form': form})
+    return render(request, 'register.html', {'form': form})
 
 def custom_login_view(request):
     if request.method == 'POST':
@@ -54,8 +54,8 @@ def custom_login_view(request):
     else:
         form = AuthenticationForm()
         form = AuthenticationForm()
-    return render(request, 'tiendaEsoterica/login.html', {'form': form})
+    return render(request, 'login.html', {'form': form})
     
 def producto_detalle(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
-    return render(request, 'tiendaEsoterica/producto_detalle.html', {'producto': producto})
+    return render(request, 'producto_detalle.html', {'producto': producto})
