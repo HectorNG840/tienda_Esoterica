@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Perfil(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     fecha_nacimiento = models.DateField(null=True, blank=True)
@@ -18,6 +19,7 @@ class Categoria(models.Model):
     def __str__(self):
         return self.nombre
 # Create your models here.
+
 class Producto(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
@@ -27,5 +29,3 @@ class Producto(models.Model):
 
     def __str__(self):
         return self.nombre
-  
-    

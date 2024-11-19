@@ -146,4 +146,3 @@ LOGOUT_REDIRECT_URL = '/login/'  # Redirige a la página de login después de ce
 
 
 
-

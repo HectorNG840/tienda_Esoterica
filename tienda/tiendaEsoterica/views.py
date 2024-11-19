@@ -62,4 +62,3 @@ def inicio(request):
 def producto_detalle(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
     return render(request, 'producto_detalle.html', {'producto': producto})
-

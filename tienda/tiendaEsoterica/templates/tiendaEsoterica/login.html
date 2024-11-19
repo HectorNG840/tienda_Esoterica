@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda Esotérica</title>
+    <title>Tienda Esotérica - Iniciar Sesión</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,7 +13,6 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            position: relative;
         }
         .login-container {
             background-color: #fff;
@@ -30,13 +29,14 @@
         }
         .form-group {
             margin-bottom: 15px;
+            position: relative;
         }
         label {
             display: block;
             font-weight: bold;
             margin-bottom: 5px;
         }
-        input[type="text"], input[type="password"] {
+        input[type="text"], [type="email"], input[type="password"] {
             width: calc(100% - 20px);
             padding: 10px;
             margin: 0 10px;
@@ -93,28 +93,28 @@
 <body>
     <div class="home-link">
         <a href="{% url 'inicio' %}">Página Principal</a>
-    </div>    
+    </div>
     <div class="login-container">
         <h2>Iniciar Sesión</h2>
-        <form method="post" action="{% url 'login' %}" novalidate>
+        <form method="post" novalidate>
             {% csrf_token %}
-            {% for field in form %}
-                <div class="form-group">
-                    <label for="{{ field.id_for_label }}">
-                        {% if field.name == "username" %}
-                            Usuario
-                        {% elif field.name == "password" %}
-                            Contraseña
-                        {% else %}
-                            {{ field.label }}
-                        {% endif %}
-                    </label>
-                    {{ field }}
-                    {% if field.errors %}
-                        <div class="form-error">{{ field.errors|striptags }}</div>
-                    {% endif %}
-                </div>
-            {% endfor %}
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">Correo</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="form-error">{{ form.username.errors|striptags }}</div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}">Contraseña</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <div class="form-error">{{ form.password.errors|striptags }}</div>
+                {% endif %}
+            </div>
+            {% if form.non_field_errors %}
+                <div class="form-error">{{ form.non_field_errors|striptags }}</div>
+            {% endif %}
             <button type="submit" class="form-button">Iniciar Sesión</button>
         </form>
         <div class="register-link">
