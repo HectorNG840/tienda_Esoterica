@@ -6,6 +6,7 @@ from tiendaEsoterica import views
 from tiendaEsoterica.admin import admin
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     # URL para el inicio de sesión
     path('login/', auth_views.LoginView.as_view(template_name='tiendaEsoterica/login.html'), name='login'),
 
