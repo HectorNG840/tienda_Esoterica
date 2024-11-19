@@ -4,78 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil de Usuario</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            position: relative;
-        }
-        .profile-container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
-        }
-        h2 {
-            color: #333;
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-        p {
-            color: #555;
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-        .username {
-            font-weight: bold;
-            color: #007BFF;
-        }
-        .logout-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background: linear-gradient(90deg, #007BFF, #0056b3);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-        .logout-btn:hover {
-            background: linear-gradient(90deg, #0056b3, #007BFF);
-            transform: scale(1.05);
-        }
-        .home-link {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-        }
-        .home-link a {
-            display: inline-block;
-            padding: 10px 20px;
-            background: linear-gradient(90deg, #007BFF, #0056b3);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: bold;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-        .home-link a:hover {
-            transform: scale(1.05);
-        }
-    </style>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/perfil.css' %}">
 </head>
 <body>
     <div class="home-link">

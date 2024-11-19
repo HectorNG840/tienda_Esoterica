@@ -12,20 +12,10 @@ from django.shortcuts import render, get_object_or_404
 from .models import Producto, Categoria
 
 
-@login_required  # Asegura que solo usuarios autenticados puedan acceder a `home`
-def home(request):
-    return render(request, 'tiendaEsoterica/home.html')
-
-
-@login_required
 def inicio(request):
     productos = Producto.objects.all()  # Trae todos los productos
     return render(request, 'tiendaEsoterica/inicio.html', {'productos': productos})
 
-
-
-def home(request):
-    return render(request, 'tiendaEsoterica/home.html')
 
 @login_required
 def perfil(request):
@@ -49,16 +39,11 @@ def custom_login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('inicio')  # Redirige a inicio después de iniciar sesión
+            return redirect('')  # Redirige a la página raíz después de iniciar sesión
     else:
         form = AuthenticationForm()
     return render(request, 'tiendaEsoterica/login.html', {'form': form})
-'''
-# Create your views here.
-def inicio(request):
-    productos = Producto.objects.all()
-    return render(request, 'inicio.html', {'productos': productos})
-'''
+    
 def producto_detalle(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
-    return render(request, 'producto_detalle.html', {'producto': producto})
+    return render(request, 'tiendaEsoterica/producto_detalle.html', {'producto': producto})

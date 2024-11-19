@@ -29,7 +29,8 @@ nav.appnavbar {
 }
 
 nav.appnavbar .logo img {
-    height: 50px;
+    height: 100px; /* Ajusta la altura del logo según sea necesario */
+    width: 100px;  /* Mantiene la proporción del logo */
 }
 
 nav.appnavbar .search-bar {
