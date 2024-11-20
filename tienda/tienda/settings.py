@@ -26,7 +26,10 @@ SECRET_KEY = 'django-insecure-oky8)3#_3i79-=4b#-ay2%438u)790d!n-r!*sq_b_f_3ln=&x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['tienda-esoterica.onrender.com', 'localhost', '127.0.0.1']
+
+
+CSRF_TRUSTED_ORIGINS = ['https://tienda-esoterica.onrender.com']
 
 
 # Application definition
@@ -95,6 +98,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {'min_length': 8},
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -122,9 +126,8 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -145,9 +148,6 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Cierra sesión al cerrar el navegador
 LOGIN_REDIRECT_URL = '/'  # Redirige a la página de inicio después de iniciar sesión
 LOGOUT_REDIRECT_URL = '/login/'  # Redirige a la página de login después de cerrar sesión
 
-
-
-
-
-
-
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]

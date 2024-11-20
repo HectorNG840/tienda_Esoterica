@@ -1,6 +1,6 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    font-family: 'Poppins', sans-serif;
+    background-color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -94,7 +94,7 @@ input:focus + .password-help {
 .home-link a {
     display: inline-block;
     padding: 10px 20px;
-    background: linear-gradient(90deg, #007BFF, #0056b3);
+    background: linear-gradient(90deg, #7729d7, #23214a);
     color: #fff;
     text-decoration: none;
     border-radius: 50px;
@@ -106,4 +106,10 @@ input:focus + .password-help {
 }
 .home-link a:hover {
     transform: scale(1.05);
+}
+.link-text {
+    text-decoration: none;
+}
+.link-text:hover {
+    text-decoration: underline;
 }
