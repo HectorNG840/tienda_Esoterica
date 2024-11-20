@@ -19,6 +19,9 @@
                 </div>
                 <div class="search-bar">
                     <input type="text" placeholder="Buscar...">
+                    <button type="submit" class="search-button">
+                        <img src="{% static 'images/lupa.png' %}" alt="Buscar" class="search-icon">
+                    </button>
                 </div>
                 <div class="nav-links">
                     {% if user.is_authenticated %}
@@ -26,7 +29,9 @@
                     {% else %}
                     <a href="/login/" class="button">Iniciar Sesión</a>
                     {% endif %}
-                    <a href="/carrito">Carrito de Compra</a>
+                    <a href="/carrito" class="button cesta-button">
+                        Cesta <img src="{% static 'images/cesta.png' %}" alt="Cesta" class="cesta-icon">
+                    </a>
                 </div>
             </nav>
         </header>
