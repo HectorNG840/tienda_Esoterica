@@ -29,6 +29,9 @@ DEBUG = True
 ALLOWED_HOSTS = ['tienda-esoterica.onrender.com', 'localhost', '127.0.0.1']
 
 
+CSRF_TRUSTED_ORIGINS = ['https://tienda-esoterica.onrender.com']
+
+
 # Application definition
 
 INSTALLED_APPS = [
