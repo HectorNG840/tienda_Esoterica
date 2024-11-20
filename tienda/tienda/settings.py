@@ -95,6 +95,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {'min_length': 8},
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -144,9 +145,6 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Cierra sesión al cerrar el navegador
 LOGIN_REDIRECT_URL = '/'  # Redirige a la página de inicio después de iniciar sesión
 LOGOUT_REDIRECT_URL = '/login/'  # Redirige a la página de login después de cerrar sesión
 
-
-
-
-
-
-
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
