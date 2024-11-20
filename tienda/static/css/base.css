@@ -17,8 +17,10 @@ html, body {
 header {
     background: linear-gradient(360deg, #e519f0 0%, #c639ea 50%, #7729d7 100%);
     color: #fff;
-    padding: 10px 0;
+    padding: 5px 0;
     text-align: center;
+    position: fixed;
+    width: 100%;
 }
 
 nav.appnavbar {
@@ -62,6 +64,7 @@ nav.appnavbar .nav-links a {
 main {
     flex: 1;
     padding: 20px;
+    margin-top: calc(var(--header-height, 90px));
 }
 
 footer {
