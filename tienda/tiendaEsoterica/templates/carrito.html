@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Carrito de Compras{% endblock %}
+
+{% block content %}
+<h2 style="padding-top: 60px">Carrito de Compras</h2>
+{% if carrito_items %}
+    <div class="carrito-container">
+        {% for item in carrito_items %}
+            <div class="carrito-item">
+                <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" class="carrito-item-imagen">
+                <div class="carrito-item-info" a>
+                    <a href="{% url 'producto_detalle' item.producto.pk %}">
+                    <h3>{{ item.producto.nombre }}</h3>
+                    <p>Precio: {{ item.producto.precio }} €</p>
+                    <div class="carrito-item-cantidad">
+                        <form action="{% url 'add_to_cart' item.producto.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="cantidad" value="1">
+                            <button type="submit" class="cantidad-boton">+</button>
+                        </form>
+                        <span>{{ item.cantidad }}</span>
+                        <form action="{% url 'remove_from_cart' item.producto.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="cantidad" value="-1">
+                            <button type="submit" class="cantidad-boton">-</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="carrito-total">
+            <p>Total: {{ total }} €</p>
+        </div>
+    </div>
+{% else %}
+    <p>Tu carrito está vacío.</p>
+{% endif %}
+{% endblock %}
