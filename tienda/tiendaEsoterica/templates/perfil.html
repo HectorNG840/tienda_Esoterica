@@ -1,16 +1,15 @@
 <!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil de Usuario</title>
-    {% load static %}
     <link rel="stylesheet" href="{% static 'css/perfil.css' %}">
 </head>
 <body>
-    <div class="home-link">
-        <a href="{% url 'inicio' %}">Página Principal</a>
-    </div>
     <div class="profile-container">
         <h2>Perfil de Usuario</h2>
         <p>Bienvenido, <span class="username">{{ user.username }}</span>. Esta es tu página de perfil.</p>
@@ -21,3 +20,4 @@
     </div>
 </body>
 </html>
+{% endblock %}
