@@ -1,10 +1,12 @@
 <!DOCTYPE html>
+{% load static %}
+{% block content %}
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda Esotérica - Iniciar Sesión</title>
-    {% load static %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 <body>
@@ -23,7 +25,7 @@
                 {% endif %}
             </div>
             <div class="form-group">
-                <label for="{{ form.password.id_for_label }}">Contraseña</label>
+                <label for="{{ form.password.id_for_label }}">Contraseña</label>z
                 {{ form.password }}
                 {% if form.password.errors %}
                     <div class="form-error">{{ form.password.errors|striptags }}</div>
@@ -35,8 +37,9 @@
             <button type="submit" class="form-button">Iniciar Sesión</button>
         </form>
         <div class="register-link">
-            <p>¿No tienes una cuenta? <a href="{% url 'register' %}">Regístrate aquí</a></p>
+            <p>¿No tienes una cuenta? <a href="{% url 'register' %}" class="link-text">Regístrate aquí</a></p>
         </div>
     </div>
 </body>
 </html>
+{% endblock %}
