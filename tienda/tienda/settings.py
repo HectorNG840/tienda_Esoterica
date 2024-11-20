@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-oky8)3#_3i79-=4b#-ay2%438u)790d!n-r!*sq_b_f_3ln=&x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['tienda-esoterica.onrender.com', 'localhost', '127.0.0.1']
 
