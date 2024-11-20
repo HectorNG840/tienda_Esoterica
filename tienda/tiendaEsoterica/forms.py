@@ -3,13 +3,48 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
-
+from .models import Perfil
 
 class CustomUserCreationForm(forms.Form):
+    first_name = forms.CharField(
+        label="Nombre",
+        max_length=30,
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Introduce tu nombre'}),
+    )
+    last_name = forms.CharField(
+        label="Apellidos",
+        max_length=50,
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Introduce tus apellidos'}),
+    )
     email = forms.EmailField(
         label="Correo Electrónico",
         required=True,
         widget=forms.EmailInput(attrs={'placeholder': 'Introduce tu correo'}),
+    )
+    telefono = forms.CharField(
+        label="Teléfono",
+        max_length=15,
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Introduce tu número de teléfono'}),
+    )
+    direccion = forms.CharField(
+        label="Dirección",
+        max_length=255,
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Introduce tu dirección'}),
+    )
+    fecha_nacimiento = forms.DateField(
+        label="Fecha de Nacimiento",
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        required=True,
+    )
+    codigo_postal = forms.CharField(
+        label="Código Postal",
+        max_length=10,
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Introduce tu código postal'}),
     )
     password1 = forms.CharField(
         label="Contraseña",
@@ -29,16 +64,6 @@ class CustomUserCreationForm(forms.Form):
             raise ValidationError("Ya existe un usuario registrado con este correo electrónico.")
         return email
 
-    def clean_password1(self):
-        password = self.cleaned_data.get('password1')
-        if len(password) < 8:
-            raise ValidationError("La contraseña debe tener al menos 8 caracteres.")
-        if not any(char.isdigit() for char in password):
-            raise ValidationError("La contraseña debe incluir al menos un número.")
-        if not any(char.isupper() for char in password):
-            raise ValidationError("La contraseña debe incluir al menos una letra mayúscula.")
-        return password
-
     def clean(self):
         cleaned_data = super().clean()
         password1 = cleaned_data.get('password1')
@@ -46,7 +71,6 @@ class CustomUserCreationForm(forms.Form):
 
         if password1 and password2 and password1 != password2:
             raise ValidationError("Las contraseñas no coinciden.")
-
 
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.EmailField(
@@ -63,3 +87,14 @@ class CustomAuthenticationForm(AuthenticationForm):
             if not user:
                 raise forms.ValidationError("Correo o contraseña incorrectos.")
         return super().clean()
+    
+class PerfilUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Perfil
+        fields = ['telefono', 'direccion', 'fecha_nacimiento', 'codigo_postal']
+        widgets = {
+            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Introduce tu teléfono'}),
+            'direccion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Introduce tu dirección'}),
+            'fecha_nacimiento': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'codigo_postal': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Introduce tu código postal'}),
+        }
