@@ -7,6 +7,7 @@ body {
 header {
     color: #fff;
     padding: 1rem 0;
+    z-index: 3;
 }
 
 nav ul {
@@ -48,3 +49,58 @@ nav ul li a {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+.carrusel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    margin: 20px auto;
+  }
+  
+  .carrusel-contenedor {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+  
+  .imagenes {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  
+  .atras,
+  .adelante {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 2;
+  }
+  
+  .atras {
+    left: 10px;
+  }
+  
+  .adelante {
+    right: 10px;
+  }
+  
+  .atras img,
+  .adelante img {
+    width: 40px;
+    height: 40px;
+  }
+  

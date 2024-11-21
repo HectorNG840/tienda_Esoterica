@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Inicio - Tienda Esotérica{% endblock %}
 
 {% block content %}
-
+<link rel="stylesheet" href="{% static 'css/inicio.css' %}">
 <section class="hero">
   <h1 style="margin-top: 50px;">Bienvenido a la Tienda Esotérica Misterio</h1>
   <p>Descubre un mundo de magia, misticismo y espiritualidad.</p>
@@ -11,6 +12,32 @@
 <section class="about">
   <h2>Sobre Nosotros</h2>
   <p>En nuestra tienda esotérica, ofrecemos una amplia variedad de productos para ayudarte en tu viaje espiritual. Desde cristales y piedras preciosas hasta libros de magia y tarot, tenemos todo lo que necesitas para explorar el mundo esotérico.</p>
+</section>
+
+<section class="carrusel">
+  <div class="carrusel-contenedor">
+    <div class="atras">
+      <img id="atras" src="{% static 'images/atras.svg' %}" alt="atras" loading="lazy">
+    </div>
+
+    <div class="imagenes">
+      <div id="img">
+        <img class="img" src="{% static 'images/velaExito.jpg' %}" alt="imagen 1" loading="lazy">
+      </div>
+    </div>
+
+    <div class="adelante" id="adelante">
+      <img src="{% static 'images/adelante.svg' %}" alt="adelante" loading="lazy">
+    </div>
+  </div>
+  <script>
+      const imagenes = [
+          "{% static 'images/velaExito.jpg' %}",
+          "{% static 'images/jabonTodo.jpg' %}",
+          "{% static 'images/velaRomance.jpg' %}"
+      ];
+  </script>
+  <script src="{% static 'js/carrusel.js' %}"></script>
 </section>
 
   <h2>Productos Destacados</h2>
@@ -30,3 +57,4 @@
   </div>
 </section>
 {% endblock %}
+
