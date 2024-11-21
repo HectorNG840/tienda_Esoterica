@@ -5,7 +5,7 @@ from django.contrib.auth import login
 from .models import Perfil, Producto, Categoria, User, Carrito, CarritoItem
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm, CustomAuthenticationForm
+from .forms import CustomUserCreationForm, CustomAuthenticationForm, EnvioForm, PagoForm
 
 
 def inicio(request):
@@ -113,3 +113,33 @@ def carrito_view(request):
             })
             total += producto.precio * cantidad
     return render(request, 'carrito.html', {'carrito_items': carrito_items, 'total': total})
+
+def resumen_pedido(request):
+    carrito_items = []
+    total = 0
+    if request.user.is_authenticated:
+        carrito, created = Carrito.objects.get_or_create(user=request.user)
+        carrito_items = carrito.carritoitem_set.all()
+        total = sum(item.producto.precio * item.cantidad for item in carrito_items)
+    else:
+        carrito = request.session.get('carrito', {})
+        for producto_id, cantidad in carrito.items():
+            producto = get_object_or_404(Producto, id=producto_id)
+            carrito_items.append({
+                'producto': producto,
+                'cantidad': cantidad,
+                'total': producto.precio * cantidad
+            })
+            total += producto.precio * cantidad
+    
+    if request.method == 'POST':
+        envio_form = EnvioForm(request.POST)
+        pago_form = PagoForm(request.POST)
+        if envio_form.is_valid() and pago_form.is_valid():
+            # Procesar el pedido y los datos de envío y pago
+            return redirect('confirmacion_pedido')
+    else:
+        envio_form = EnvioForm()
+        pago_form = PagoForm()
+    
+    return render(request, 'resumen_pedido.html', {'carrito_items': carrito_items, 'total': total, 'envio_form': envio_form, 'pago_form': pago_form})

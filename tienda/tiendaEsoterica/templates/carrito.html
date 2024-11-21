@@ -32,6 +32,9 @@
         <div class="carrito-total">
             <p>Total: {{ total }} €</p>
         </div>
+        <div class="carrito-resumen">
+            <a href="{% url 'resumen_pedido' %}" class="resumen-boton">Proceder al Pago</a>
+        </div>
     </div>
 {% else %}
     <p>Tu carrito está vacío.</p>
