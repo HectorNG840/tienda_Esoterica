@@ -1,15 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 class Perfil(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    fecha_nacimiento = models.DateField(null=True, blank=True)
-    preferencias_esotericas = models.TextField(blank=True, help_text="Intereses o preferencias en productos esotéricos")
-    historial_compras = models.TextField(blank=True, help_text="Historial de compras en la tienda esotérica")
+    telefono = models.CharField(max_length=15, blank=True, null=True)
+    direccion = models.CharField(max_length=255, blank=True, null=True)
+    fecha_nacimiento = models.DateField(blank=True, null=True)
+    codigo_postal = models.CharField(max_length=10, blank=True, null=True)
+    preferencias_esotericas = models.TextField(blank=True, null=True)  # Asegúrate de definir este campo si es necesario
 
     def __str__(self):
-        return f"Perfil de {self.user.username}"
+        return self.user.username
+
 
 
 class Categoria(models.Model):

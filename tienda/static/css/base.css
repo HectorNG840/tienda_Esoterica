@@ -5,7 +5,7 @@ html, body {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
-    background-color: #f4f4f4;
+    background-color: #ffffff;
 }
 
 .wrapper {
@@ -15,7 +15,7 @@ html, body {
 }
 
 header {
-    background-color: #333;
+    background: linear-gradient(360deg, #e519f0 0%, #c639ea 50%, #7729d7 100%);
     color: #fff;
     padding: 0.1px 0;
     text-align: center;
@@ -83,10 +83,6 @@ nav.appnavbar .nav-links a {
     transition: background-color 0.3s;
 }
 
-nav.appnavbar .nav-links a:hover {
-    background-color: #555;
-}
-
 main {
     flex: 1;
     padding: 20px;
@@ -94,7 +90,7 @@ main {
 }
 
 footer {
-    background-color: #333;
+    background: linear-gradient(360deg, #e519f0 0%, #c639ea 50%, #7729d7 100%);
     color: #fff;
     text-align: center;
     padding: 10px 0;
@@ -162,7 +158,6 @@ footer {
 
 .product-item .add-to-cart,
 .producto-info .add-to-cart {
-    background-color: #333;
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -171,10 +166,6 @@ footer {
     margin-top: 10px;
 }
 
-.product-item .add-to-cart:hover,
-.producto-info .add-to-cart:hover {
-    background-color: #555;
-}
 .producto-detalle {
     display: flex;
     align-items: flex-start;
@@ -211,3 +202,22 @@ footer {
 .producto-info p {
     margin-bottom: 10px;
 }
+
+.icon {
+    font-size: 25px;
+    transition: all 0.3s ease;
+}
+
+.icon:hover {
+    transform: scale(1.1);
+}
+
+.button {
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    transform: scale(1.1);
+}
+
+
