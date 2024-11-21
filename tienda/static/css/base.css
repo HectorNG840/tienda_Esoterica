@@ -17,35 +17,57 @@ html, body {
 header {
     background-color: #333;
     color: #fff;
-    padding: 5px 0;
+    padding: 0.1px 0;
     text-align: center;
     position: fixed;
     width: 100%;
 }
+
+
 
 nav.appnavbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
+    background-image: url("../images/fondoNav.png");
+    background-size: cover; /* Ajusta el tamaño de la imagen para cubrir toda la barra */
+    background-position: center
 }
 
 nav.appnavbar .logo img {
     height: 100px; /* Ajusta la altura del logo según sea necesario */
-    width: 100px;  /* Mantiene la proporción del logo */
+    width: auto;  /* Mantiene la proporción del logo */
 }
 
 nav.appnavbar .search-bar {
+    position: relative;
     flex: 1;
     margin: 0 20px;
+    max-width: 400px; /* Aumentar el ancho máximo de la barra de búsqueda */
 }
 
 nav.appnavbar .search-bar input {
     width: 100%;
-    padding: 10px;
-    font-size: 16px;
+    padding: 10px 40px 10px 20px; /* Reducir el padding para hacer la barra más pequeña */
+    font-size: 14px; /* Reducir el tamaño de la fuente */
     border: none;
     border-radius: 5px;
+}
+
+nav.appnavbar .search-bar .search-button {
+    position: absolute;
+    right: 0.1px; /* Mover la posición del botón más a la derecha */
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+nav.appnavbar .search-bar .search-icon {
+    height: 20px; /* Ajustar el tamaño del icono */
 }
 
 nav.appnavbar .nav-links {
@@ -76,6 +98,34 @@ footer {
     color: #fff;
     text-align: center;
     padding: 10px 0;
+}
+
+
+.button {
+    background-color: #8a2be2;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #7a1be2;
+}
+
+.cesta-button {
+    display: flex;
+    align-items: center;
+}
+
+.cesta-icon {
+    margin-left: 0.5rem;
+    height: 35px; /* Ajusta el tamaño de la imagen según sea necesario */
 }
 
 .product-grid {
