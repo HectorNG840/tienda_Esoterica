@@ -1,58 +1,69 @@
+.profile-container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.profile-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.profile-container p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    color: #555;
+}
 
 .profile-container {
-    background-color: #fff;
+    background: #fff;
     padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.profile-container h2 {
     text-align: center;
-    max-width: 400px;
-    width: 100%;
-    margin-top: 170px;
-    margin-left: 500px;
-}
-h2 {
     color: #333;
-    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.profile-container p {
+    font-size: 16px;
+    line-height: 1.5;
     margin-bottom: 10px;
+    color: #555;
 }
-.username {
-    font-weight: bold;
-    color: #007BFF;
-}
-.logout-btn {
+
+.btn {
     display: inline-block;
     padding: 10px 20px;
-    background: linear-gradient(90deg, #7729d7, #23214a);
-    color: #fff;
-    text-decoration: none;
-    border-radius: 50px;
     font-size: 16px;
     font-weight: bold;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-}
-.logout-btn:hover {
-    background: linear-gradient(90deg, #7729d7, #23214a);
-    transform: scale(1.05);
-}
-.home-link {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-}
-.home-link a {
-    display: inline-block;
-    padding: 10px 20px;
-    background: linear-gradient(90deg, #7729d7, #23214a);
-    color: #fff;
-    text-decoration: none;
-    border-radius: 50px;
-    font-size: 14px;
-    font-weight: bold;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    transition: background-color 0.3s ease;
 }
-.home-link a:hover {
-    transform: scale(1.05);
+
+.btn:hover {
+    background-color: #0056b3;
 }
+
+.btn-success {
+    background-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+

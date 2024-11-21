@@ -151,3 +151,7 @@ LOGOUT_REDIRECT_URL = '/login/'  # Redirige a la página de login después de ce
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
+LOGIN_URL = '/login/'  # Ajusta según tu URL de inicio de sesión
+LOGIN_REDIRECT_URL = '/'  # Redirige a la página principal
+
+
