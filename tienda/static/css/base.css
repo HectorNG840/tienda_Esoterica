@@ -57,8 +57,8 @@ nav.appnavbar .search-bar input {
 
 nav.appnavbar .search-bar .search-button {
     position: absolute;
-    right: 0.1px; /* Mover la posición del botón más a la derecha */
-    top: 50%;
+    right: 10px; /* Mover la posición del botón más a la derecha */
+    top: 55%;
     transform: translateY(-50%);
     border: none;
     background: none;
