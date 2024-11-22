@@ -18,7 +18,11 @@ urlpatterns = [
     path('admin/', admin.site.urls), 
     # Otras rutas, como detalles de productos
     path('producto/<int:pk>/', views.producto_detalle, name='producto_detalle'),
-    path('producto/<int:pk>/', views.producto_detalle, name='producto_detalle'),
+    
+    path('add_to_cart/<int:producto_id>/', views.add_to_cart, name='add_to_cart'),
+    path('remove_from_cart/<int:producto_id>/', views.remove_from_cart, name='remove_from_cart'),
+    path('carrito/', views.carrito_view, name='carrito'),
+    path('resumen_pedido/', views.resumen_pedido, name='resumen_pedido'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

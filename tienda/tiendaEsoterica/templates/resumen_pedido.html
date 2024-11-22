@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Resumen del Pedido{% endblock %}
+
+{% block content %}
+<h2 style="padding-top: 60px">Resumen del Pedido</h2>
+{% if carrito_items %}
+    <div class="resumen-container">
+        {% for item in carrito_items %}
+            <div class="resumen-item">
+                <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" class="resumen-item-imagen">
+                <div class="resumen-item-info">
+                    <h3>{{ item.producto.nombre }}</h3>
+                    <p>Precio: {{ item.producto.precio }} €</p>
+                    <p>Cantidad: {{ item.cantidad }}</p>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="resumen-total">
+            <p>Total: {{ total }} €</p>
+        </div>
+        <form method="post" class="combined-form">
+            {% csrf_token %}
+            <div class="forms-container">
+                <div class="envio-form">
+                    <h3>Datos de Envío</h3>
+                    {{ envio_form.as_p }}
+                </div>
+                <div class="pago-form">
+                    <h3>Datos de Pago</h3>
+                    {{ pago_form.as_p }}
+                </div>
+            </div>
+            <div class="confirmar-boton-container">
+                <button type="submit" class="confirmar-boton">Confirmar Pedido</button>
+            </div>
+        </form>
+    </div>
+{% else %}
+    <p>Tu carrito está vacío.</p>
+{% endif %}
+{% endblock %}

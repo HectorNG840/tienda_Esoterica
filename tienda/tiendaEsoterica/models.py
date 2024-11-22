@@ -23,7 +23,6 @@ class Categoria(models.Model):
 
     def __str__(self):
         return self.nombre
-# Create your models here.
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=100)
@@ -68,3 +67,18 @@ class Pedido(models.Model):
 
     def __str__(self):
         return f"Pedido {self.id} - {self.get_estado_display()}"
+    
+class Carrito(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    productos = models.ManyToManyField(Producto, through='CarritoItem')
+
+    def __str__(self):
+        return f"Carrito de {self.user.username}"
+
+class CarritoItem(models.Model):
+    carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.cantidad} x {self.producto.nombre}"
