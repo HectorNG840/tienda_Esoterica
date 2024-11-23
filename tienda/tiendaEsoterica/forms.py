@@ -98,3 +98,16 @@ class PerfilUpdateForm(forms.ModelForm):
             'fecha_nacimiento': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'codigo_postal': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Introduce tu código postal'}),
         }
+
+class EnvioForm(forms.Form):
+    nombre = forms.CharField(max_length=100)
+    direccion = forms.CharField(widget=forms.Textarea)
+    ciudad = forms.CharField(max_length=100)
+    codigo_postal = forms.CharField(max_length=10)
+    pais = forms.CharField(max_length=100)
+
+class PagoForm(forms.Form):
+    numero_tarjeta = forms.CharField(max_length=16, label="Número de Tarjeta")
+    fecha_expiracion = forms.CharField(max_length=5, label="Fecha de Expiración (MM/AA)")
+    cvv = forms.CharField(max_length=3, label="CVV")
+    nombre_titular = forms.CharField(max_length=100, label="Nombre del Titular")
