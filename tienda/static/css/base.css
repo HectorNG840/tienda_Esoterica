@@ -89,13 +89,14 @@ main {
     margin-top: calc(var(--header-height, 90px));
 }
 
+/*
 footer {
     background: linear-gradient(360deg, #e519f0 0%, #c639ea 50%, #7729d7 100%);
     color: #fff;
     text-align: center;
     padding: 10px 0;
 }
-
+*/
 
 .button {
     background-color: #8a2be2;
