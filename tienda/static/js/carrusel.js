@@ -11,12 +11,28 @@ document.addEventListener("DOMContentLoaded", () => {
     atras.addEventListener("click", () => {
         actual = (actual === 0) ? imagenes.length - 1 : actual - 1;
         renderCarrusel();
+        resetAutoSlide();
     });
 
     adelante.addEventListener("click", () => {
         actual = (actual + 1) % imagenes.length;
         renderCarrusel();
+        resetAutoSlide();
     });
+
+    const autoSlideInterval = 5000;
+    let autoSlide = setInterval(() => {
+        actual = (actual + 1) % imagenes.length;
+        renderCarrusel();
+    }, autoSlideInterval);
+
+    function resetAutoSlide() {
+        clearInterval(autoSlide);
+        autoSlide = setInterval(() => {
+            actual = (actual + 1) % imagenes.length;
+            renderCarrusel();
+        }, autoSlideInterval);
+    }
 
     renderCarrusel();
 });
