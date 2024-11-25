@@ -128,7 +128,7 @@ class PerfilUpdateForm(forms.ModelForm):
 
 class EnvioForm(forms.Form):
     nombre = forms.CharField(max_length=100)
-    direccion = forms.CharField(widget=forms.Textarea)
+    direccion_envio = forms.CharField(widget=forms.Textarea)
     ciudad = forms.CharField(max_length=100)
     codigo_postal = forms.CharField(max_length=10)
     pais = forms.CharField(max_length=100)

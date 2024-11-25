@@ -1,0 +1,113 @@
+main {
+    max-width: 900px;
+    margin: 50px auto 30px auto; /* Aumenta el margen superior */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Encabezado */
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/* Encabezados de tabla */
+th {
+    background-color: #007bff;
+    color: white;
+    padding: 12px;
+    text-align: center;
+}
+
+/* Filas de tabla */
+tr {
+    border-bottom: 1px solid #ccc;
+}
+
+/* Celdas de tabla */
+td {
+    padding: 15px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Alternar colores de fila */
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Estilo para la lista de productos dentro de cada celda */
+td ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+td li {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Última fila de producto sin borde */
+td li:last-child {
+    border-bottom: none;
+}
+
+/* Imagen de producto */
+td li img {
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+/* Texto de producto */
+td li strong {
+    color: #555;
+    margin-right: 5px;
+    font-size: 14px;
+}
+
+/* Precio del producto */
+td li span {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Total en la última celda */
+td:last-child {
+    font-weight: bold;
+    color: #007bff;
+}
+
+/* Estado del pedido */
+td.estado {
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+/* No hay pedidos */
+p {
+    text-align: center;
+    color: #555;
+    font-size: 18px;
+}
+
+.producto-img {
+    width: 60px;    /* Ajusta el ancho de la imagen */
+    height: 60px;   /* Ajusta la altura de la imagen */
+    object-fit: cover; /* Mantiene las proporciones y recorta si es necesario */
+    border-radius: 5px;
+    margin-right: 10px;
+}
