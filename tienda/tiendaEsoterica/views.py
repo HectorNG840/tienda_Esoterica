@@ -26,7 +26,6 @@ def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            # Crear usuario
             user = User.objects.create_user(
                 username=form.cleaned_data['email'],
                 email=form.cleaned_data['email'],
@@ -35,8 +34,7 @@ def register(request):
                 password=form.cleaned_data['password1'],
             )
             user.save()
-            
-            # Crear perfil
+
             Perfil.objects.create(
                 user=user,
                 telefono=form.cleaned_data['telefono'],
@@ -44,12 +42,15 @@ def register(request):
                 fecha_nacimiento=form.cleaned_data['fecha_nacimiento'],
                 codigo_postal=form.cleaned_data['codigo_postal'],
             )
-            
-            # Redirigir al perfil
-            return redirect('perfil')
+
+            login(request, user)
+
+            return redirect('inicio')
     else:
         form = CustomUserCreationForm()
+
     return render(request, 'register.html', {'form': form})
+
 
 def custom_login_view(request):
     if request.method == 'POST':

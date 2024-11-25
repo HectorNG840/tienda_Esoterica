@@ -86,3 +86,38 @@ input:focus {
 .login-link a:hover {
     color: #563d7c;
 }
+
+.password-help {
+    display: none;
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 0.85em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    width: 100%;
+    box-sizing: border-box;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 3s ease, transform 3s ease;
+}
+
+.password-help ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.password-help ul li {
+    margin-bottom: 5px;
+}
+
+input[type="password"]:focus + .password-help {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}

@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Perfil de Usuario{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/perfil.css' %}">
 <div class="profile-container">
     <h2>Perfil de Usuario</h2>
     <p><strong>Nombre:</strong> {{ request.user.first_name }}</p>
@@ -15,7 +17,10 @@
     <div class="profile-buttons">
         <a href="{% url 'mis_pedidos' %}" class="btn btn-success">Mis Pedidos</a>
         <a href="{% url 'editar_perfil' %}" class="btn btn-primary">Editar Perfil</a>
+        <form method="post" action="{% url 'logout' %}" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
+        </form>
     </div>
-    
 </div>
 {% endblock %}
