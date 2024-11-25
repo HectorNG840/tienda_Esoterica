@@ -12,6 +12,10 @@
     <p><strong>Dirección:</strong> {{ perfil.direccion }}</p>
     <p><strong>Fecha de Nacimiento:</strong> {{ perfil.fecha_nacimiento }}</p>
     <p><strong>Código Postal:</strong> {{ perfil.codigo_postal }}</p>
-    <a href="{% url 'editar_perfil' %}" class="btn btn-primary">Editar Perfil</a>
+    <div class="profile-buttons">
+        <a href="{% url 'mis_pedidos' %}" class="btn btn-success">Mis Pedidos</a>
+        <a href="{% url 'editar_perfil' %}" class="btn btn-primary">Editar Perfil</a>
+    </div>
+    
 </div>
 {% endblock %}

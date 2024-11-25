@@ -38,8 +38,19 @@
 .profile-container p {
     font-size: 16px;
     line-height: 1.5;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     color: #555;
+}
+
+.profile-buttons {
+    display: flex;
+    justify-content: center; /* Centrar los botones */
+    gap: 80px; /* Espacio entre los botones */
+    margin-top: 50px; /* Mayor distancia respecto a la información del perfil */
+}
+
+.profile-buttons .btn {
+    margin: 0; /* Eliminamos márgenes individuales */
 }
 
 .btn {
