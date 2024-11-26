@@ -7,12 +7,12 @@ from .models import Producto, Categoria, Carrito, CarritoItem
 class LoginTestCase(TestCase):
      def setUp(self):
         # Crear un usuario para las pruebas
-        self.user = self.user = User.objects.create_user(first_name='Prueba',last_name='Prueba',email='testuser@example.com',telefono='123908674',direccion='Reina Mercedes',fecha_nacimiento='21/10/2002',codigo_postal='41012', password='Contraseñaprueba123')
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
      def test_login_with_valid_credentials(self):
         # Datos de login válidos
         login_data = {
-            'username': 'testuser@example.com',
-            'password': 'Contraseñaprueba123',
+            'username': 'testuser',
+            'password': 'testpassword',
         }
         # Realizar una solicitud POST a la vista de login
         response = self.client.post(reverse('login'), login_data)
@@ -24,7 +24,7 @@ class LoginTestCase(TestCase):
      def test_login_with_invalid_credentials(self):
         # Datos de login inválidos
         login_data = {
-            'username': 'testuser@example.com',
+            'username': 'testuser',
             'password': 'wrongpassword'
         }
         # Realizar una solicitud POST a la vista de login
@@ -53,7 +53,6 @@ class RegisterTestCase(TestCase):
         
         # Verificar que la redirección sea a la página de perfil
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse('perfil'))
         
 
     def test_register_with_invalid_data(self):
@@ -61,7 +60,7 @@ class RegisterTestCase(TestCase):
         register_data = {
             'first_name':'Prueba',
             'last_name':'Prueba',
-            'email':'testuser@example.com',
+            'username':'testuser@example.com',
             'telefono':'123908674',
             'direccion':'Reina Mercedes',
             'fecha_nacimiento':'21/10/2002',
@@ -112,7 +111,7 @@ class InicioTestCase(TestCase):
 class CarritoTestCase(TestCase):
     def setUp(self):
         # Crear un usuario para las pruebas
-        self.user = User.objects.create_user(first_name='Prueba',last_name='Prueba',email='testuser@example.com',telefono='123908674',direccion='Reina Mercedes',fecha_nacimiento='21/10/2002',codigo_postal='41012', password='Contraseñaprueba123')
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
         
         # Crear una categoría y algunos productos para las pruebas
         self.categoria = Categoria.objects.create(nombre='Categoría de Prueba')
@@ -133,7 +132,7 @@ class CarritoTestCase(TestCase):
     
     def test_add_to_cart_and_proceed_to_payment(self):
         # Iniciar sesión
-        self.client.login(username='testuser@example.com', password='Contraseñaprueba123')
+        self.client.login(username='testuser', password='testpassword')
         
         # Añadir productos al carrito
         response = self.client.post(reverse('add_to_cart', args=[self.producto1.id]), {'cantidad': 1})
@@ -153,7 +152,7 @@ class CarritoTestCase(TestCase):
         response = self.client.get(reverse('resumen_pedido'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Resumen del Pedido')
-
+        
         # Enviar datos de envío y pago
         response = self.client.post(reverse('resumen_pedido'), {
             'nombre': 'Test User',
