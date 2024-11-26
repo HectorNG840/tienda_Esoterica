@@ -176,6 +176,14 @@ def resumen_pedido(request):
         envio_form = EnvioForm(request.POST)
         pago_form = PagoForm(request.POST)
         if envio_form.is_valid() and pago_form.is_valid():
+            pedido = Pedido.objects.create(
+                user=request.user,
+                estado='P',
+                direccion_envio=envio_form.cleaned_data['direccion_envio']
+            )
+            for item in carrito_items:
+                pedido.productos.add(item.producto)
+            pedido.save()
             if request.user.is_authenticated:
                 carrito.carritoitem_set.all().delete()
             else:
