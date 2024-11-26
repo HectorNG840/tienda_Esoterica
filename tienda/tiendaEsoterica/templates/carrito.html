@@ -1,42 +1,49 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Carrito de Compras{% endblock %}
 
 {% block content %}
-<h2 style="padding-top: 60px">Carrito de Compras</h2>
-{% if carrito_items %}
-    <div class="carrito-container">
-        {% for item in carrito_items %}
-            <div class="carrito-item">
-                <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" class="carrito-item-imagen">
-                <div class="carrito-item-info" a>
-                    <a href="{% url 'producto_detalle' item.producto.pk %}">
-                    <h3>{{ item.producto.nombre }}</h3>
-                    <p>Precio: {{ item.producto.precio }} €</p>
-                    <div class="carrito-item-cantidad">
-                        <form action="{% url 'add_to_cart' item.producto.id %}" method="post" style="display: inline;">
-                            {% csrf_token %}
-                            <input type="hidden" name="cantidad" value="1">
-                            <button type="submit" class="cantidad-boton">+</button>
-                        </form>
-                        <span>{{ item.cantidad }}</span>
-                        <form action="{% url 'remove_from_cart' item.producto.id %}" method="post" style="display: inline;">
-                            {% csrf_token %}
-                            <input type="hidden" name="cantidad" value="-1">
-                            <button type="submit" class="cantidad-boton">-</button>
-                        </form>
+<link rel="stylesheet" href="{% static 'css/carrito.css' %}">
+
+<section class="carrito">
+    <h2 class="carrito-titulo">Cesta</h2>
+    {% if carrito_items %}
+        <div class="carrito-layout">
+            <div class="carrito-lista">
+                {% for item in carrito_items %}
+                    <div class="carrito-item">
+                        <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" class="carrito-item-imagen">
+                        <div class="carrito-item-info">
+                            <a href="{% url 'producto_detalle' item.producto.pk %}" class="carrito-item-nombre">
+                                <h1>{{ item.producto.nombre }}</h1>
+                            </a>
+                            <p class="carrito-item-precio">Precio: <span>{{ item.producto.precio }} €</span></p>
+                            <div class="carrito-item-cantidad">
+                                <form action="{% url 'add_to_cart' item.producto.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="cantidad" value="1">
+                                    <button type="submit" class="cantidad-boton">+</button>
+                                </form>
+                                <span class="cantidad-valor">{{ item.cantidad }}</span>
+                                <form action="{% url 'remove_from_cart' item.producto.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="cantidad" value="-1">
+                                    <button type="submit" class="cantidad-boton">-</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                {% endfor %}
             </div>
-        {% endfor %}
-        <div class="carrito-total">
-            <p>Total: {{ total }} €</p>
+            
+            <div class="carrito-resumen">
+                <p class="carrito-total">Total: <span>{{ total }} €</span></p>
+                <a href="{% url 'resumen_pedido' %}" class="boton-pago">Pagar</a>
+            </div>
         </div>
-        <div class="carrito-resumen">
-            <a href="{% url 'resumen_pedido' %}" class="resumen-boton">Proceder al Pago</a>
-        </div>
-    </div>
-{% else %}
-    <p>Tu carrito está vacío.</p>
-{% endif %}
+    {% else %}
+        <p class="carrito-vacio">Tu carrito está vacío.</p>
+    {% endif %}
+</section>
 {% endblock %}

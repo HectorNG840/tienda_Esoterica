@@ -1,0 +1,137 @@
+/* General Styles */
+body {
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .producto-detalle {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+  }
+  
+  .producto-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .producto-imagen img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .producto-info {
+    max-width: 600px;
+    flex: 1;
+  }
+  
+  .producto-titulo {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #222;
+  }
+  
+  .producto-categoria {
+    font-size: 1rem;
+    color: #888;
+    margin-bottom: 20px;
+  }
+  
+  .producto-descripcion {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+  .producto-precio {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #444;
+    padding-bottom: 20px;
+  }
+  
+  .producto-precio span {
+    color: #e63622;
+  }
+  
+  .producto-form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .producto-cantidad-label {
+    font-size: 1rem;
+    margin-right: 5px;
+    margin-top: 6px;
+  }
+  
+  .producto-cantidad {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background-color: #f8f9fa;
+    transition: border-color 0.5s;
+}
+
+.producto-cantidad:focus {
+    border-color: #8a2be2;
+    outline: none;
+}
+
+.cart-button {
+    background-color: #8a2be2;
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(138, 43, 226, 0.3);
+}
+
+.cart-button:hover {
+    background-color: #7a1be2;
+    transform: translateY(-2px);
+}
+
+.cart-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(138, 43, 226, 0.2);
+}
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .producto-detalle {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .producto-container {
+      flex-direction: column;
+    }
+  
+    .producto-imagen img {
+      max-width: 100%;
+    }
+  
+    .producto-info {
+      max-width: 100%;
+      text-align: center;
+    }
+  
+    .producto-form {
+      justify-content: center;
+    }
+  }

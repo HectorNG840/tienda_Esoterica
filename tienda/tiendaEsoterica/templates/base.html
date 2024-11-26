@@ -33,13 +33,13 @@
                                         {% endif %}
                                     {% endfor %}
                                 {% else %}
-                                    Todas las categorías
+                                    Categorías
                                 {% endif %}
                                 <i class="fa-solid fa-chevron-down"></i>
                             </button>
                             <ul class="dropdown-menu" id="dropdown-menu">
                                 <li>
-                                    <a href="?search={{ request.GET.search|default_if_none:'' }}">Todas las categorías</a>
+                                    <a href="?search={{ request.GET.search|default_if_none:'' }}">Todas</a>
                                 </li>
                                 {% for categoria in categorias %}
                                 <li>

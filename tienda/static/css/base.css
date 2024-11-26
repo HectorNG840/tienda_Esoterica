@@ -5,7 +5,7 @@ html, body {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
-    background-color: #ffffff;
+    background-color: #f9f9f9;
 }
 
 .wrapper {
@@ -68,7 +68,21 @@ nav.appnavbar .search-bar .search-button {
 }
 
 nav.appnavbar .search-bar .search-icon {
-    height: 20px; /* Ajustar el tamaño del icono */
+    height: 20px;
+}
+
+.search-button i {
+    font-size: 20px;
+    margin-bottom: 4px;
+    margin-right: -2px;
+}
+
+.search-button {
+    cursor: pointer;
+}
+
+.search-button:hover i {
+    color: #4CAF50;
 }
 
 .search-form {
@@ -181,15 +195,6 @@ main {
     margin-top: calc(var(--header-height, 90px));
 }
 
-/* FOOTER */
-/*
-footer {
-    background: linear-gradient(360deg, #e519f0 0%, #c639ea 50%, #7729d7 100%);
-    color: #fff;
-    text-align: center;
-    padding: 10px 0;
-}
-*/
 footer {
     background-color: #e2e2e2;
     color: #000;
