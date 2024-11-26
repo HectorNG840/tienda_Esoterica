@@ -35,6 +35,17 @@
 </section>
 
 <section>
+  <form method="get" action="." class="filter">
+    <label for="categoria">Filtrar por categoría:</label>
+    <select name="categoria" id="categoria" onchange="this.form.submit()">
+      <option value="">Todas las categorías</option>
+      {% for categoria in categorias %}
+        <option value="{{ categoria.id }}" {% if request.GET.categoria == categoria.id|stringformat:"s" %}selected{% endif %}>
+          {{ categoria.nombre }}
+        </option>
+      {% endfor %}
+    </select>
+  </form>
   <h2>Seguro que te gusta</h2>
   <div class="product-grid">
     {% for producto in productos %}
@@ -44,6 +55,8 @@
         <p>{{ producto.precio }} €</p>
         <p class="categoria">{{ producto.categoria.nombre }}</p>
       </a>
+    {% empty %}
+      <p>No hay productos disponibles.</p>
     {% endfor %}
   </div>
 </section>
