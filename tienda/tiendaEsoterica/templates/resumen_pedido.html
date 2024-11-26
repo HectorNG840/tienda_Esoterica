@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Resumen del Pedido{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/resumen.css' %}">
+
+<section class="resumen-pedido">
+    <h2 class="resumen-titulo">Resumen</h2>
+    {% if carrito_items %}
+        <div class="resumen-layout">
+
+            <div class="resumen-lista">
+                {% for item in carrito_items %}
+                    <div class="resumen-item">
+                        <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" class="resumen-item-imagen">
+                        <div class="resumen-item-info">
+                            <h3 class="resumen-item-nombre">{{ item.producto.nombre }}</h3>
+                            <p class="resumen-item-precio">Precio: <span>{{ item.producto.precio }} €</span></p>
+                            <p class="resumen-item-cantidad">Cantidad: {{ item.cantidad }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="resumen-detalles">
+                <div class="resumen-total">
+                    <p>Total: <span>{{ total }} €</span></p>
+                    <button type="button" class="boton-pago" onclick="document.querySelector('.resumen-formulario').submit();">
+                        Pagar ahora
+                    </button>
+                </div>
+                <form method="post" class="resumen-formulario">
+                    {% csrf_token %}
+                    <div class="resumen-formularios">
+                        <div class="envio-formulario">
+                            <h3>Datos de Envío</h3>
+                            {% for field in envio_form %}
+                                <div class="form-group">
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    {{ field }}
+                                    {% if field.errors %}
+                                        <span class="error-message">{{ field.errors|striptags }}</span>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="pago-formulario">
+                            <h3>Datos de Pago</h3>
+                            {% for field in pago_form %}
+                                <div class="form-group">
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    {{ field }}
+                                    {% if field.errors %}
+                                        <span class="error-message">{{ field.errors|striptags }}</span>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    {% else %}
+        <p class="resumen-vacio">Tu carrito está vacío.</p>
+    {% endif %}
+</section>
+{% endblock %}

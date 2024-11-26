@@ -1,32 +1,74 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Inicio - Tienda Esotérica{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/inicio.css' %}">
 
-<section class="hero">
-  <h1>Bienvenido a la Tienda Esotérica Misterio</h1>
-  <p>Descubre un mundo de magia, misticismo y espiritualidad.</p>
-  
-<section class="about">
-  <h2>Sobre Nosotros</h2>
-  <p>En nuestra tienda esotérica, ofrecemos una amplia variedad de productos para ayudarte en tu viaje espiritual. Desde cristales y piedras preciosas hasta libros de magia y tarot, tenemos todo lo que necesitas para explorar el mundo esotérico.</p>
+<section class="carrusel">
+  <div class="carrusel-contenedor">
+    <div class="atras">
+      <img id="atras" src="{% static 'images/atras.svg' %}" alt="atras" loading="lazy">
+    </div>
+
+    <div class="imagenes">
+      <div id="img">
+        <img class="img" src="{% static 'images/velaExito.jpg' %}" alt="imagen 1" loading="lazy">
+      </div>
+    </div>
+
+    <div class="adelante" id="adelante">
+      <img src="{% static 'images/adelante.svg' %}" alt="adelante" loading="lazy">
+    </div>
+  </div>
+  <script>
+      const imagenes = [
+          "{% static 'images/velaExito.jpg' %}",
+          "{% static 'images/piedraAgata.jpg' %}",
+          "{% static 'images/jabonTodo.jpg' %}",
+          "{% static 'images/piedraActinota.jpg' %}",
+          "{% static 'images/jabonDespojo.jpg' %}"
+      ];
+  </script>
+  <script src="{% static 'js/carrusel.js' %}"></script>
 </section>
 
-  <h2>Productos Destacados</h2>
+<section>
+  <!--<form method="get" action="." class="filter">
+    <label for="categoria">Filtrar por categoría:</label>
+    <select name="categoria" id="categoria" onchange="this.form.submit()">
+      <option value="">Todas las categorías</option>
+      {% for categoria in categorias %}
+        <option value="{{ categoria.id }}" {% if request.GET.categoria == categoria.id|stringformat:"s" %}selected{% endif %}>
+          {{ categoria.nombre }}
+        </option>
+      {% endfor %}
+    </select>
+  </form> -->
+  <h2>Seguro que te gusta</h2>
   <div class="product-grid">
     {% for producto in productos %}
-      <div class="product-item">
-        <a href="{% url 'producto_detalle' producto.pk %}">
-          <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
-          <h3>{{ producto.nombre }}</h3>
-        </a>
+      <a href="{% url 'producto_detalle' producto.pk %}" class="product-item">
+        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+        <h3>{{ producto.nombre }}</h3>
+        <p>{{ producto.precio }} €</p>
         <p class="categoria">{{ producto.categoria.nombre }}</p>
-        <p>{{ producto.descripcion }}</p>
-        <p>Precio: {{ producto.precio }} €</p>
-        <button class="add-to-cart">Añadir a la cesta</button>
-      </div>
+      </a>
+    {% empty %}
+      <p>No hay productos disponibles.</p>
     {% endfor %}
   </div>
 </section>
+
+<div id="back-to-top" onclick="scrollToTop()">
+  Volver arriba
+</div>
+<script>
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
 {% endblock %}
+

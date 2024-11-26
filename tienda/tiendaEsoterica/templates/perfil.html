@@ -1,23 +1,26 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil de Usuario</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/perfil.css' %}">
-</head>
-<body>
-    <div class="home-link">
-        <a href="{% url 'inicio' %}">Página Principal</a>
-    </div>
-    <div class="profile-container">
-        <h2>Perfil de Usuario</h2>
-        <p>Bienvenido, <span class="username">{{ user.username }}</span>. Esta es tu página de perfil.</p>
-        <form method="post" action="{% url 'logout' %}">
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Perfil de Usuario{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/perfil.css' %}">
+<div class="profile-container">
+    <h2>Perfil de Usuario</h2>
+    <p><strong>Nombre:</strong> {{ request.user.first_name }}</p>
+    <p><strong>Apellidos:</strong> {{ request.user.last_name }}</p>
+    <p><strong>Correo Electrónico:</strong> {{ request.user.email }}</p>
+    <p><strong>Teléfono:</strong> {{ perfil.telefono }}</p>
+    <p><strong>Dirección:</strong> {{ perfil.direccion }}</p>
+    <p><strong>Fecha de Nacimiento:</strong> {{ perfil.fecha_nacimiento }}</p>
+    <p><strong>Código Postal:</strong> {{ perfil.codigo_postal }}</p>
+    <div class="profile-buttons">
+        <a href="{% url 'mis_pedidos' %}" class="btn btn-success">Mis Pedidos</a>
+        <a href="{% url 'editar_perfil' %}" class="btn btn-primary">Editar Perfil</a>
+        <form method="post" action="{% url 'logout' %}" class="logout-form">
             {% csrf_token %}
-            <button type="submit" class="logout-btn">Cerrar Sesión</button>
+            <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
         </form>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

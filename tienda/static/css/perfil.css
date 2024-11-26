@@ -1,70 +1,107 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    position: relative;
-}
 .profile-container {
-    background-color: #fff;
+    background: #fff;
     padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 40px auto;
+}
+
+.profile-container h2 {
     text-align: center;
-    max-width: 400px;
-    width: 100%;
-}
-h2 {
     color: #333;
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-p {
-    color: #555;
-    font-size: 18px;
     margin-bottom: 20px;
+    margin-top: -10px;
 }
-.username {
-    font-weight: bold;
-    color: #007BFF;
+
+.profile-container p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    color: #555;
 }
-.logout-btn {
+
+.profile-container p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.profile-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.profile-buttons .btn {
+    margin: 0;
+}
+
+.btn {
     display: inline-block;
     padding: 10px 20px;
-    background: linear-gradient(90deg, #007BFF, #0056b3);
-    color: #fff;
-    text-decoration: none;
-    border-radius: 50px;
+    margin-top: 10px;
     font-size: 16px;
     font-weight: bold;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    text-align: center;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #fff;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
-.logout-btn:hover {
-    background: linear-gradient(90deg, #0056b3, #007BFF);
-    transform: scale(1.05);
+
+.btn-primary {
+    background-color: #007bff;
 }
-.home-link {
-    position: fixed;
-    top: 15px;
-    right: 15px;
+
+.btn-primary:hover {
+    background-color: #015ab9;
 }
-.home-link a {
+
+.btn-success {
+    background-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.button-group .btn:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logout-form {
+    margin: 0;
+    display: inline;
+}
+
+.logout-form button {
+    all: unset;
     display: inline-block;
     padding: 10px 20px;
-    background: linear-gradient(90deg, #007BFF, #0056b3);
-    color: #fff;
-    text-decoration: none;
-    border-radius: 50px;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #dc3545;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
-.home-link a:hover {
-    transform: scale(1.05);
+
+.logout-form button:hover {
+    background-color: #c82333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

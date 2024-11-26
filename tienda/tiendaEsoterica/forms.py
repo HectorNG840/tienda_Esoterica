@@ -3,13 +3,62 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
+from .models import Perfil
+from django.core.validators import RegexValidator
 
 
 class CustomUserCreationForm(forms.Form):
+    first_name = forms.CharField(
+        label="Nombre",
+        max_length=30,
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Introduce tu nombre'}),
+    )
+    last_name = forms.CharField(
+        label="Apellidos",
+        max_length=50,
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Introduce tus apellidos'}),
+    )
     email = forms.EmailField(
         label="Correo Electrónico",
         required=True,
         widget=forms.EmailInput(attrs={'placeholder': 'Introduce tu correo'}),
+    )
+    telefono = forms.CharField(
+        label="Teléfono",
+        max_length=15,
+        required=True,
+        validators=[
+            RegexValidator(
+                regex=r'^\+?\d+$',
+                message="El número de teléfono debe contener solo dígitos."
+            )
+        ],
+        widget=forms.TextInput(attrs={'placeholder': 'Introduce tu número de teléfono'}),
+    )
+    direccion = forms.CharField(
+        label="Dirección",
+        max_length=255,
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Introduce tu dirección'}),
+    )
+    fecha_nacimiento = forms.DateField(
+        label="Fecha de Nacimiento",
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        required=True,
+    )
+    codigo_postal = forms.CharField(
+        label="Código Postal",
+        max_length=10,
+        required=True,
+        validators=[
+            RegexValidator(
+                regex=r'^\d+$', 
+                message="El código postal solo debe contener números."
+             )
+        ],
+        widget=forms.TextInput(attrs={'placeholder': 'Introduce tu código postal'}),
     )
     password1 = forms.CharField(
         label="Contraseña",
@@ -28,7 +77,7 @@ class CustomUserCreationForm(forms.Form):
         if User.objects.filter(email=email).exists():
             raise ValidationError("Ya existe un usuario registrado con este correo electrónico.")
         return email
-
+    
     def clean_password1(self):
         password = self.cleaned_data.get('password1')
         if len(password) < 8:
@@ -63,3 +112,98 @@ class CustomAuthenticationForm(AuthenticationForm):
             if not user:
                 raise forms.ValidationError("Correo o contraseña incorrectos.")
         return super().clean()
+
+
+class PerfilUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Perfil
+        fields = ['telefono', 'direccion', 'fecha_nacimiento', 'codigo_postal']
+        widgets = {
+            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Introduce tu teléfono'}),
+            'direccion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Introduce tu dirección'}),
+            'fecha_nacimiento': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'codigo_postal': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Introduce tu código postal'}),
+        }
+
+
+from django import forms
+
+class EnvioForm(forms.Form):
+    nombre = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'El nombre no puede superar los 100 caracteres.',
+        }
+    )
+    direccion_envio = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'La dirección no puede superar los 150 caracteres.',
+        }
+    )
+    ciudad = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'La ciudad no puede superar los 100 caracteres.',
+        }
+    )
+    codigo_postal = forms.CharField(
+        max_length=10,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'El código postal no puede superar los 10 caracteres.',
+        }
+    )
+    pais = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'El país no puede superar los 100 caracteres.',
+        }
+    )
+
+class PagoForm(forms.Form):
+    numero_tarjeta = forms.CharField(
+        max_length=16,
+        label="Número de Tarjeta",
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'El número de tarjeta debe tener 16 caracteres.',
+        }
+    )
+    fecha_expiracion = forms.CharField(
+        max_length=5,
+        label="Fecha de Expiración (MM/AA)",
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'La fecha debe estar en formato MM/AA.',
+        }
+    )
+    cvv = forms.CharField(
+        max_length=3,
+        label="CVV",
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'El CVV debe tener 3 caracteres.',
+        }
+    )
+    nombre_titular = forms.CharField(
+        max_length=100,
+        label="Nombre del Titular",
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'El nombre no puede superar los 100 caracteres.',
+        }
+    )
