@@ -1,0 +1,188 @@
+/* General Styles */
+body {
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.carrito {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0px 20px;
+}
+
+.carrito-titulo {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: #222;
+    font-weight: bold;
+}
+
+/* Layout principal */
+.carrito-layout {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+/* Lista de productos */
+.carrito-lista {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.carrito-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 1px solid #ececec;
+    padding-bottom: 20px;
+}
+
+.carrito-item:last-child {
+    border-bottom: none;
+}
+
+.carrito-item-imagen {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.carrito-item-info {
+    flex: 1;
+}
+
+.carrito-item-nombre {
+    text-decoration: none;
+}
+
+.carrito-item-nombre h3 {
+    font-size: 1.5rem;
+    margin: 0 0 20px;
+    color: #444;
+}
+
+.carrito-item-precio {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.carrito-item-precio span {
+    color: #e63946;
+    font-weight: bold;
+}
+
+.carrito-item-cantidad {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cantidad-boton {
+    background-color: #8a2be2;
+    color: #fff;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cantidad-boton:hover {
+    background-color: #7a1be2;
+    transform: scale(1.1);
+}
+
+.cantidad-valor {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+/* Resumen */
+.carrito-resumen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: -15px;
+}
+
+.carrito-total {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #444;
+}
+
+.carrito-total span {
+    color: #e63946;
+}
+
+/* Botón de Pagar */
+.boton-pago {
+    background: linear-gradient(135deg, #6a0dad, #8a2be2, #4b0082);
+    color: #fff;
+    padding: 15px 30px;
+    border: 2px solid #ffffff;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.boton-pago::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: skewX(-30deg);
+    transition: all 0.7s ease;
+}
+
+.boton-pago:hover::before {
+    left: 100%;
+}
+
+.boton-pago:hover {
+    background: linear-gradient(135deg, #4b0082, #6a0dad, #8a2be2);
+    transform: scale(1.1) rotate(-2deg);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3), 0px 0px 15px #6a0dad;
+}
+
+/* Mensaje de Carrito Vacío */
+.carrito-vacio {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #666;
+    margin-top: 40px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .carrito-layout {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .carrito-resumen {
+        align-items: center;
+    }
+}

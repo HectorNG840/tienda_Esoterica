@@ -1,28 +1,32 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ producto.nombre }} - Tienda Esotérica{% endblock %}
-{% load static %}
+
 {% load custom_filters %}
 {% block content %}
-<section class="producto-detalle" style="padding-top: 60px">
-  <div class="producto-imagen">
-    <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
-  </div>
-  <div class="producto-info">
-    <h1>{{ producto.nombre }}</h1>
-    <p class="categoria">{{ producto.categoria.nombre }}</p>
-    <p>{{ producto.descripcion }}</p>
-    <p>Precio: {{ producto.precio }} €</p>
-    <form action="{% url 'add_to_cart' producto.id %}" method="post">
-      {% csrf_token %}
-      <label for="cantidad">Cantidad:</label>
-      <select id="cantidad" name="cantidad">
-        {% for i in 10|to_range %}
-          <option value="{{ i }}">{{ i }}</option>
-        {% endfor %}
-      </select>
-      <button type="submit" class="add-to-cart">Añadir a la cesta</button>
-    </form>
+<link rel="stylesheet" href="{% static 'css/producto_detalle.css' %}">
+<section class="producto-detalle">
+  <div class="producto-container">
+    <div class="producto-imagen">
+      <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+    </div>
+    <div class="producto-info">
+      <h1 class="producto-titulo">{{ producto.nombre }}</h1>
+      <p class="producto-categoria">{{ producto.categoria.nombre }}</p>
+      <p class="producto-descripcion">{{ producto.descripcion }}</p>
+      <p class="producto-precio">Precio: <span>{{ producto.precio }} €</span></p>
+      <form action="{% url 'add_to_cart' producto.id %}" method="post" class="producto-form">
+        {% csrf_token %}
+        <label for="cantidad" class="producto-cantidad-label">Cantidad:</label>
+        <select id="cantidad" name="cantidad" class="producto-cantidad">
+          {% for i in 10|to_range %}
+            <option value="{{ i }}">{{ i }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit" class="cart-button">Añadir a la cesta</button>
+      </form>
+    </div>
   </div>
 </section>
 {% endblock %}

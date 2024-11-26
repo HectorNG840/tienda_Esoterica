@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
 {% block title %}Mis Pedidos{% endblock %}
@@ -14,18 +13,17 @@
                 <tr>
                     <th>ID del Pedido</th>
                     <th>Fecha</th>
-                    <th>Estado</th>
                     <th>Dirección de Envío</th>
                     <th>Productos</th>
                     <th>Total</th>
+                    <th>Estado</th>
                 </tr>
             </thead>
             <tbody>
                 {% for pedido in pedidos %}
                     <tr>
                         <td>{{ pedido.id }}</td>
-                        <td>{{ pedido.fecha_pedido|date:"d M, Y" }}</td> <!-- Formato de fecha más legible -->
-                        <td class="estado">{{ pedido.get_estado_display }}</td> <!-- Añadida clase para estado -->
+                        <td>{{ pedido.fecha_pedido|date:"d M, Y" }}</td>
                         <td>{{ pedido.direccion_envio }}</td>
                         <td>
                             <ul class="productos-lista">
@@ -33,21 +31,21 @@
                                     <li>
                                         <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="producto-img">
                                         <div class="producto-info">
-                                            <strong>{{ producto.nombre }}</strong><br>
-                                            {{ producto.descripcion }}<br>
-                                            <span>{{ producto.precio }}€</span>
+                                            <strong>{{ producto.nombre }}</strong>
+                                            <span class="producto-precio">{{ producto.precio }}€</span>
                                         </div>
                                     </li>
                                 {% endfor %}
                             </ul>
                         </td>
-                        <td class="total">{{ pedido.precio_total }}€</td> <!-- Añadida clase para el total -->
+                        <td class="total">{{ pedido.precio_total }}€</td>
+                        <td class="estado {{ pedido.estado|lower }}">{{ pedido.get_estado_display }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     {% else %}
-        <p>No tienes pedidos.</p>
+        <p class="sin-pedidos">No tienes pedidos.</p>
     {% endif %}
 </main>
 {% endblock %}

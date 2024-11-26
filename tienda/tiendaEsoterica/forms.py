@@ -126,16 +126,84 @@ class PerfilUpdateForm(forms.ModelForm):
         }
 
 
-class EnvioForm(forms.Form):
-    nombre = forms.CharField(max_length=100)
-    direccion_envio = forms.CharField(widget=forms.Textarea)
-    ciudad = forms.CharField(max_length=100)
-    codigo_postal = forms.CharField(max_length=10)
-    pais = forms.CharField(max_length=100)
+from django import forms
 
+class EnvioForm(forms.Form):
+    nombre = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'El nombre no puede superar los 100 caracteres.',
+        }
+    )
+    direccion_envio = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'La dirección no puede superar los 150 caracteres.',
+        }
+    )
+    ciudad = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'La ciudad no puede superar los 100 caracteres.',
+        }
+    )
+    codigo_postal = forms.CharField(
+        max_length=10,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'El código postal no puede superar los 10 caracteres.',
+        }
+    )
+    pais = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'El país no puede superar los 100 caracteres.',
+        }
+    )
 
 class PagoForm(forms.Form):
-    numero_tarjeta = forms.CharField(max_length=16, label="Número de Tarjeta")
-    fecha_expiracion = forms.CharField(max_length=5, label="Fecha de Expiración (MM/AA)")
-    cvv = forms.CharField(max_length=3, label="CVV")
-    nombre_titular = forms.CharField(max_length=100, label="Nombre del Titular")
+    numero_tarjeta = forms.CharField(
+        max_length=16,
+        label="Número de Tarjeta",
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'El número de tarjeta debe tener 16 caracteres.',
+        }
+    )
+    fecha_expiracion = forms.CharField(
+        max_length=5,
+        label="Fecha de Expiración (MM/AA)",
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'La fecha debe estar en formato MM/AA.',
+        }
+    )
+    cvv = forms.CharField(
+        max_length=3,
+        label="CVV",
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'El CVV debe tener 3 caracteres.',
+        }
+    )
+    nombre_titular = forms.CharField(
+        max_length=100,
+        label="Nombre del Titular",
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'El nombre no puede superar los 100 caracteres.',
+        }
+    )

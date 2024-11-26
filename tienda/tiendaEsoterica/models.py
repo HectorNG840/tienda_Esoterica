@@ -37,8 +37,9 @@ class Producto(models.Model):
 class Pedido(models.Model):
     ESTADO_CHOICES = [
         ('P', 'Pedido'),
-        ('C', 'En camino'),
-        ('E', 'Enviado'),
+        ('C', 'Enviado'),
+        ('E', 'Entregado'),
+        ('X', 'Cancelado'),
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pedidos')
