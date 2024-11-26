@@ -23,11 +23,41 @@
                     </a>
                 </div>
                 <div class="search-bar">
-                    <input type="text" placeholder="Buscar...">
-                    <button type="submit" class="search-button">
-                        <img src="{% static 'images/lupa.png' %}" alt="Buscar" class="search-icon">
-                    </button>
+                    <form action="{% url 'inicio' %}" method="get" class="search-form">
+                        <div class="dropdown">
+                            <button type="button" class="dropdown-toggle" id="dropdown-button">
+                                {% if request.GET.categoria %}
+                                    {% for categoria in categorias %}
+                                        {% if categoria.id|stringformat:"s" == request.GET.categoria %}
+                                            {{ categoria.nombre }}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    Todas las categorías
+                                {% endif %}
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <ul class="dropdown-menu" id="dropdown-menu">
+                                <li>
+                                    <a href="?search={{ request.GET.search|default_if_none:'' }}">Todas las categorías</a>
+                                </li>
+                                {% for categoria in categorias %}
+                                <li>
+                                    <a href="?categoria={{ categoria.id }}&search={{ request.GET.search|default_if_none:'' }}">
+                                        {{ categoria.nombre }}
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <input type="text" name="search" placeholder="Buscar..." value="{{ request.GET.search|default_if_none:'' }}">
+                        <button type="submit" class="search-button">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </form>
                 </div>
+
                 <div class="nav-links">
                     {% if user.is_authenticated %}
                     <a href="/perfil/" class="button">Mi Perfil</a>
@@ -35,19 +65,45 @@
                     <a href="/login/" class="button">Iniciar Sesión</a>
                     {% endif %}
                     <a href="/carrito" class="button cesta-button">
-                        Cesta <img src="{% static 'images/cesta.png' %}" alt="Cesta" class="cesta-icon">
+                        Cesta <i class="fa-solid fa-cart-shopping"></i>
                     </a>
-
                 </div>
             </nav>
         </header>
+
         <main>
             {% block content %}
             {% endblock %}
         </main>
+
         <footer>
             <p>&copy; 2024 Tienda Esotérica Misterio. Todos los derechos reservados.</p>
         </footer>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropdownButton = document.getElementById('dropdown-button');
+            const dropdownMenu = document.getElementById('dropdown-menu');
+            
+            if (dropdownButton && dropdownMenu) {
+                dropdownButton.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', function (e) {
+                    dropdownMenu.classList.remove('show');
+                });
+                
+                dropdownMenu.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                });
+            } else {
+                console.error('Elementos no encontrados en el DOM');
+            }
+        });
+    </script>
 </body>
 </html>

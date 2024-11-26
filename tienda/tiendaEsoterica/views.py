@@ -12,8 +12,21 @@ from .forms import CustomUserCreationForm, CustomAuthenticationForm, EnvioForm, 
 
 
 def inicio(request):
-    productos = Producto.objects.all()  # Trae todos los productos
-    return render(request, 'inicio.html', {'productos': productos})
+    categorias = Categoria.objects.all()
+
+    query = request.GET.get('search', '').strip()
+    categoria_id = request.GET.get('categoria', None)
+
+    productos = Producto.objects.all()
+    if categoria_id:
+        productos = productos.filter(categoria_id=categoria_id)
+    if query:
+        productos = productos.filter(nombre__icontains=query)
+
+    return render(request, 'inicio.html', {
+        'productos': productos,
+        'categorias': categorias,
+    })
 
 
 @login_required
