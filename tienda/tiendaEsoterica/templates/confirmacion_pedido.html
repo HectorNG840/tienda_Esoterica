@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirmación del Pedido{% endblock %}
+
+{% block content %}
+
+<main>
+    <h2>Confirmación de Pedido</h2>
+    <p>Gracias por tu compra. Tu pedido ha sido confirmado.</p>
+    <p>Recibirás un correo electrónico con los detalles de tu pedido.</p>
+    <p><a href="{% url 'inicio' %}">Volver al inicio</a></p>
+</main>
+
+{% endblock %}

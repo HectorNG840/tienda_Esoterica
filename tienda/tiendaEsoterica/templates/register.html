@@ -7,15 +7,38 @@
     <h2>Regístrate</h2>
     <form method="post" novalidate>
         {% csrf_token %}
+        
+        <!-- Mostrar errores generales del formulario -->
+        {% if form.non_field_errors %}
+            <div class="form-error" style="color: red;">
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <!-- Mostrar campos individuales con sus errores -->
         {% for field in form %}
-            <div class="form-group">
+            <div class="form-group" style="position: relative;">
                 <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                 {{ field }}
                 {% if field.errors %}
                     <div class="form-error" style="color: red;">{{ field.errors|striptags }}</div>
                 {% endif %}
+
+                {% if field.name == "password1" %}
+                    <div class="password-help">
+                        <p>Tu contraseña debe cumplir los siguientes requisitos:</p>
+                        <ul>
+                            <li>·  Tener al menos 8 caracteres</li>
+                            <li>·  Incluir al menos una letra mayúscula</li>
+                            <li>·  Incluir al menos un número</li>
+                        </ul>
+                    </div>
+                {% endif %}
             </div>
         {% endfor %}
+        
         <button type="submit" class="form-button">Crear Cuenta</button>
     </form>
     <div class="login-link">

@@ -4,13 +4,14 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-width: 500px;
-    margin: 20px auto;
+    margin: 40px auto;
 }
 
 .profile-container h2 {
     text-align: center;
     color: #333;
     margin-bottom: 20px;
+    margin-top: -10px;
 }
 
 .profile-container p {
@@ -20,43 +21,43 @@
     color: #555;
 }
 
-.profile-container {
-    background: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    margin: 20px auto;
-}
-
-.profile-container h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-}
-
 .profile-container p {
     font-size: 16px;
     line-height: 1.5;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     color: #555;
+}
+
+.profile-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.profile-buttons .btn {
+    margin: 0;
 }
 
 .btn {
     display: inline-block;
     padding: 10px 20px;
+    margin-top: 10px;
     font-size: 16px;
     font-weight: bold;
     text-align: center;
+    border: none;
     border-radius: 8px;
     text-decoration: none;
     color: #fff;
-    background-color: #007bff;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.btn:hover {
-    background-color: #0056b3;
+.btn-primary {
+    background-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #015ab9;
 }
 
 .btn-success {
@@ -67,3 +68,40 @@
     background-color: #218838;
 }
 
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.button-group .btn:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logout-form {
+    margin: 0;
+    display: inline;
+}
+
+.logout-form button {
+    all: unset;
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #dc3545;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.logout-form button:hover {
+    background-color: #c82333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

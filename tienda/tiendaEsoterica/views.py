@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
-from .models import Perfil, Producto, Categoria, User, Carrito, CarritoItem
+from .models import Perfil, Producto, Categoria, User, Carrito, CarritoItem, Pedido
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
@@ -26,7 +26,6 @@ def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            # Crear usuario
             user = User.objects.create_user(
                 username=form.cleaned_data['email'],
                 email=form.cleaned_data['email'],
@@ -35,8 +34,7 @@ def register(request):
                 password=form.cleaned_data['password1'],
             )
             user.save()
-            
-            # Crear perfil
+
             Perfil.objects.create(
                 user=user,
                 telefono=form.cleaned_data['telefono'],
@@ -44,12 +42,15 @@ def register(request):
                 fecha_nacimiento=form.cleaned_data['fecha_nacimiento'],
                 codigo_postal=form.cleaned_data['codigo_postal'],
             )
-            
-            # Redirigir al perfil
-            return redirect('perfil')
+
+            login(request, user)
+
+            return redirect('inicio')
     else:
         form = CustomUserCreationForm()
+
     return render(request, 'register.html', {'form': form})
+
 
 def custom_login_view(request):
     if request.method == 'POST':
@@ -162,10 +163,27 @@ def resumen_pedido(request):
         envio_form = EnvioForm(request.POST)
         pago_form = PagoForm(request.POST)
         if envio_form.is_valid() and pago_form.is_valid():
-            # Procesar el pedido y los datos de envío y pago
+            # Crear el pedido
+            pedido = Pedido.objects.create(
+                user=request.user,
+                estado='P',
+                direccion_envio=envio_form.cleaned_data['direccion_envio']
+            )
+            # Añadir productos al pedido
+            for item in carrito_items:
+                pedido.productos.add(item.producto)
+            pedido.save()
             return redirect('confirmacion_pedido')
     else:
         envio_form = EnvioForm()
         pago_form = PagoForm()
     
     return render(request, 'resumen_pedido.html', {'carrito_items': carrito_items, 'total': total, 'envio_form': envio_form, 'pago_form': pago_form})
+
+def confirmacion_pedido(request):
+    return render(request, 'confirmacion_pedido.html')
+
+@login_required
+def mis_pedidos(request):
+    pedidos = Pedido.objects.filter(user=request.user)
+    return render(request, 'mis_pedidos.html', {'pedidos': pedidos})
