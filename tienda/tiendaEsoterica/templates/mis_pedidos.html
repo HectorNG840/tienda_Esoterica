@@ -5,7 +5,7 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/mis_pedidos.css' %}">
-<main>
+<div class="contenedor-pedidos">
     <h2>Mis Pedidos</h2>
     {% if pedidos %}
         <table>
@@ -47,5 +47,5 @@
     {% else %}
         <p class="sin-pedidos">No tienes pedidos.</p>
     {% endif %}
-</main>
+</div>
 {% endblock %}

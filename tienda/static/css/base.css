@@ -15,7 +15,7 @@ html, body {
 }
 
 header {
-    background: linear-gradient(360deg, #e519f0 0%, #c639ea 50%, #7729d7 100%);
+    background: #000;
     color: #fff;
     padding: 0.1px 0;
     text-align: center;
@@ -82,7 +82,7 @@ nav.appnavbar .search-bar .search-icon {
 }
 
 .search-button:hover i {
-    color: #4CAF50;
+    color: #8a2be2;
 }
 
 .search-form {
