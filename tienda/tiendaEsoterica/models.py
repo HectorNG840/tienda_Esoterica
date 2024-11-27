@@ -43,7 +43,6 @@ class Pedido(models.Model):
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pedidos')
-    productos = models.ManyToManyField(Producto, related_name='pedidos')
     fecha_pedido = models.DateTimeField(default=timezone.now)
     estado = models.CharField(max_length=1, choices=ESTADO_CHOICES, default='P')
     direccion_envio = models.CharField(max_length=255, blank=True, null=True)
@@ -52,8 +51,7 @@ class Pedido(models.Model):
 
     @property
     def precio_total(self):
-        return sum(producto.precio for producto in self.productos.all())
-
+        return sum(item.producto.precio * item.cantidad for item in self.items.all())
     def save(self, *args, **kwargs):
         if not self.direccion_envio and self.user.perfil.direccion:
             self.direccion_envio = self.user.perfil.direccion
@@ -68,6 +66,14 @@ class Pedido(models.Model):
 
     def __str__(self):
         return f"Pedido {self.id} - {self.get_estado_display()}"
+
+class PedidoItem(models.Model):
+    pedido = models.ForeignKey(Pedido, related_name='items', on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.cantidad} x {self.producto.nombre}"
     
 class Carrito(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

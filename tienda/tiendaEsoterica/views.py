@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
-from .models import Perfil, Producto, Categoria, User, Carrito, CarritoItem, Pedido
+from .models import Perfil, Producto, Categoria, User, Carrito, CarritoItem, Pedido, PedidoItem
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
@@ -157,6 +157,7 @@ def carrito_view(request):
 def resumen_pedido(request):
     carrito_items = []
     total = 0
+    
     if request.user.is_authenticated:
         carrito, created = Carrito.objects.get_or_create(user=request.user)
         carrito_items = carrito.carritoitem_set.all()
@@ -176,29 +177,42 @@ def resumen_pedido(request):
         envio_form = EnvioForm(request.POST)
         pago_form = PagoForm(request.POST)
         if envio_form.is_valid() and pago_form.is_valid():
+            # Crear el pedido
             pedido = Pedido.objects.create(
                 user=request.user,
                 estado='P',
                 direccion_envio=envio_form.cleaned_data['direccion_envio']
             )
+            
+            # Crear los ítems del pedido
             for item in carrito_items:
-                pedido.productos.add(item.producto)
-            pedido.save()
+                PedidoItem.objects.create(
+                    pedido=pedido,
+                    producto=item.producto if request.user.is_authenticated else item['producto'],
+                    cantidad=item.cantidad if request.user.is_authenticated else item['cantidad']
+                )
+            
+            # Limpiar el carrito después de procesar el pedido
             if request.user.is_authenticated:
-                carrito.carritoitem_set.all().delete()
+                carrito.carritoitem_set.all().delete()  # Limpiar ítems del carrito
             else:
-                request.session['carrito'] = {}
+                request.session['carrito'] = {}  # Limpiar el carrito en la sesión
+            
             return redirect('confirmacion_pedido')
     else:
         envio_form = EnvioForm()
         pago_form = PagoForm()
     
-    return render(request, 'resumen_pedido.html', {'carrito_items': carrito_items, 'total': total, 'envio_form': envio_form, 'pago_form': pago_form})
-
+    return render(request, 'resumen_pedido.html', {
+        'carrito_items': carrito_items,
+        'total': total,
+        'envio_form': envio_form,
+        'pago_form': pago_form
+    })
 def confirmacion_pedido(request):
     return render(request, 'confirmacion_pedido.html')
 
 @login_required
 def mis_pedidos(request):
-    pedidos = Pedido.objects.filter(user=request.user)
+    pedidos = Pedido.objects.filter(user=request.user).prefetch_related('items__producto')
     return render(request, 'mis_pedidos.html', {'pedidos': pedidos})
