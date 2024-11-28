@@ -9,7 +9,7 @@ from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from .forms import PerfilUpdateForm
 from .models import Perfil
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, EnvioForm, PagoForm
-
+from django.shortcuts import render
 
 def inicio(request):
     categorias = Categoria.objects.all()
@@ -94,7 +94,8 @@ def editar_perfil(request):
     return render(request, 'editar_perfil.html', {'form': form})
 
 
-
+def quienes_somos(request):
+    return render(request, 'quienes_somos.html')
 
 def add_to_cart(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
