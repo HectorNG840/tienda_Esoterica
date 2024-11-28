@@ -63,6 +63,10 @@ class Pedido(models.Model):
         self.estado = nuevo_estado
         self.fecha_actualizacion_estado = timezone.now()
         self.save()
+        
+    @property
+    def total_productos(self):
+        return sum(item.cantidad for item in self.items.all())
 
     def __str__(self):
         return f"Pedido {self.id} - {self.get_estado_display()}"
