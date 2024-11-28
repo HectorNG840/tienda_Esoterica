@@ -169,6 +169,19 @@ class EnvioForm(forms.Form):
             'max_length': 'El país no puede superar los 100 caracteres.',
         }
     )
+    
+    METODO_PAGO_CHOICES = [
+        ('contrareembolso', 'Contrareembolso'),
+        ('pasarela', 'Pasarela de Pago'),
+    ]
+    
+    metodo_pago = forms.ChoiceField(
+        choices=METODO_PAGO_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+        }
+    )
 
 class PagoForm(forms.Form):
     numero_tarjeta = forms.CharField(

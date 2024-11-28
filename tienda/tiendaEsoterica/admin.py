@@ -6,7 +6,7 @@ class PedidoItemInline(admin.TabularInline):
     extra = 0
 
 class PedidoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'fecha_pedido', 'direccion_envio', 'total_productos', 'estado')
+    list_display = ('id', 'user', 'fecha_pedido', 'direccion_envio', 'total_productos', 'estado', 'metodo_pago')
     inlines = [PedidoItemInline]
 
 admin.site.register(Pedido, PedidoAdmin)

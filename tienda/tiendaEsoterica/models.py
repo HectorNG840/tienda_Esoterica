@@ -36,15 +36,21 @@ class Producto(models.Model):
 
 class Pedido(models.Model):
     ESTADO_CHOICES = [
-        ('P', 'Pedido'),
+        ('P', 'Pendiente'),
         ('C', 'Enviado'),
         ('E', 'Entregado'),
         ('X', 'Cancelado'),
+    ]
+    
+    METODO_PAGO_CHOICES = [
+        ('contrareembolso', 'Contrareembolso'),
+        ('pasarela', 'Pasarela de Pago'),
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pedidos')
     fecha_pedido = models.DateTimeField(default=timezone.now)
     estado = models.CharField(max_length=1, choices=ESTADO_CHOICES, default='P')
+    metodo_pago = models.CharField(max_length=20, choices=METODO_PAGO_CHOICES, default='pasarela')
     direccion_envio = models.CharField(max_length=255, blank=True, null=True)
     numero_seguimiento = models.CharField(max_length=100, blank=True, null=True, unique=True)
     fecha_actualizacion_estado = models.DateTimeField(auto_now=True)
