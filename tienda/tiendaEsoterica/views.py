@@ -87,11 +87,15 @@ def editar_perfil(request):
     if request.method == 'POST':
         form = PerfilUpdateForm(request.POST, instance=perfil)
         if form.is_valid():
-            form.save()
-            return redirect('perfil')  # Redirigir al perfil después de guardar los cambios
+            form.save()  # El formulario ya maneja el valor de fecha_nacimiento
+            return redirect('perfil')
     else:
         form = PerfilUpdateForm(instance=perfil)
     return render(request, 'editar_perfil.html', {'form': form})
+
+
+
+
 def add_to_cart(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
     cantidad = int(request.POST.get('cantidad', 1))
