@@ -121,10 +121,15 @@ class PerfilUpdateForm(forms.ModelForm):
         widgets = {
             'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Introduce tu teléfono'}),
             'direccion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Introduce tu dirección'}),
-            'fecha_nacimiento': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'fecha_nacimiento': forms.DateInput(attrs={'type': 'date'}),
             'codigo_postal': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Introduce tu código postal'}),
         }
-
+    def clean_fecha_nacimiento(self):
+        # Recuperar la instancia asociada al formulario
+        if self.instance.pk and not self.cleaned_data.get('fecha_nacimiento'):
+            # Si la fecha está vacía, devolver el valor actual
+            return self.instance.fecha_nacimiento
+        return self.cleaned_data.get('fecha_nacimiento')
 
 from django import forms
 
