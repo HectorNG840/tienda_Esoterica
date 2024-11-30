@@ -76,7 +76,8 @@ nav ul li a {
     margin: auto;
     margin-left: 10%;
     transition: transform 0.3s ease;
-    filter: saturate(1.5);
+    filter: saturate(1.4);
+    cursor: pointer;
 }
 
 .img:hover {
