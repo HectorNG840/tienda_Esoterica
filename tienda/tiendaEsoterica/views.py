@@ -39,7 +39,15 @@ def inicio(request):
 
 @login_required
 def perfil(request):
-    perfil = Perfil.objects.get(user=request.user)
+    try:
+        # Intentar obtener el perfil del usuario
+        perfil = Perfil.objects.get(user=request.user)
+    except Perfil.DoesNotExist:
+        # Crear un perfil automáticamente si no existe
+        if request.user.is_staff:  # Si es un superusuario o administrador
+            return redirect('admin:index')  # Redirigir al panel de administración
+        else:
+            perfil = Perfil.objects.create(user=request.user)
     return render(request, 'perfil.html', {'perfil': perfil})
 
 

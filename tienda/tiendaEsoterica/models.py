@@ -2,7 +2,8 @@ import uuid
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone  # Añadir esta línea
-
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 class Perfil(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -84,3 +85,13 @@ class CarritoItem(models.Model):
 
     def __str__(self):
         return f"{self.cantidad} x {self.producto.nombre}"
+
+@receiver(post_save, sender=User)
+def crear_perfil_usuario(sender, instance, created, **kwargs):
+    if created and not instance.is_staff:  # Crear perfiles solo para usuarios normales
+        Perfil.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def guardar_perfil_usuario(sender, instance, **kwargs):
+    if hasattr(instance, 'perfil'):  # Guardar perfil si existe
+        instance.perfil.save()
