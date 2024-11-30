@@ -30,6 +30,7 @@ class Producto(models.Model):
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     imagen = models.ImageField(upload_to='productos/')
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name='productos')
+    cantidad = models.PositiveIntegerField(default=100)
 
     def __str__(self):
         return self.nombre

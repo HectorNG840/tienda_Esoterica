@@ -16,16 +16,24 @@ def inicio(request):
 
     query = request.GET.get('search', '').strip()
     categoria_id = request.GET.get('categoria', None)
+    precio_min = request.GET.get('precio_min')
+    precio_max = request.GET.get('precio_max')
 
     productos = Producto.objects.all()
     if categoria_id:
         productos = productos.filter(categoria_id=categoria_id)
     if query:
         productos = productos.filter(nombre__icontains=query)
+    if precio_min:
+        productos = productos.filter(precio__gte=precio_min)
+    if precio_max:
+        productos = productos.filter(precio__lte=precio_max)
 
     return render(request, 'inicio.html', {
         'productos': productos,
         'categorias': categorias,
+        'precio_min': precio_min,
+        'precio_max': precio_max,
     })
 
 
@@ -95,6 +103,8 @@ def editar_perfil(request):
 def add_to_cart(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
     cantidad = int(request.POST.get('cantidad', 1))
+    if producto.cantidad < cantidad:
+        return redirect('producto_detalle', pk=producto_id)
     if request.user.is_authenticated:
         carrito, created = Carrito.objects.get_or_create(user=request.user)
     else:
@@ -112,6 +122,8 @@ def add_to_cart(request, producto_id):
     else:
         carrito_item.cantidad = cantidad
     carrito_item.save()
+    producto.cantidad -= cantidad
+    producto.save()
     return redirect('carrito')
 
 def remove_from_cart(request, producto_id):

@@ -16,17 +16,20 @@
       <p class="producto-categoria">{{ producto.categoria.nombre }}</p>
       <p class="producto-descripcion">{{ producto.descripcion }}</p>
       <p class="producto-precio">Precio: <span>{{ producto.precio }} €</span></p>
-      <form action="{% url 'add_to_cart' producto.id %}" method="post" class="producto-form">
+      {% if producto.cantidad > 0 %}
+      <form action="{% url 'add_to_cart' producto.id %}" method="post">
         {% csrf_token %}
-        <label for="cantidad" class="producto-cantidad-label">Cantidad:</label>
-        <select id="cantidad" name="cantidad" class="producto-cantidad">
-          {% for i in 10|to_range %}
+        <label for="cantidad">Cantidad:</label>
+        <select id="cantidad" name="cantidad">
+          {% for i in 1|to_range:producto.cantidad|slice:":10" %}
             <option value="{{ i }}">{{ i }}</option>
           {% endfor %}
         </select>
-        <button type="submit" class="cart-button">Añadir a la cesta</button>
+        <button type="submit" class="add-to-cart">Añadir a la cesta</button>
       </form>
-    </div>
+    {% else %}
+      <p class="no-stock">No hay existencias</p>
+    {% endif %}
   </div>
 </section>
 {% endblock %}

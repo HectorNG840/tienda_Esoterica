@@ -34,40 +34,79 @@
   <script src="{% static 'js/carrusel.js' %}"></script>
 </section>
 
-<section>
-  <!--<form method="get" action="." class="filter">
-    <label for="categoria">Filtrar por categoría:</label>
-    <select name="categoria" id="categoria" onchange="this.form.submit()">
-      <option value="">Todas las categorías</option>
-      {% for categoria in categorias %}
-        <option value="{{ categoria.id }}" {% if request.GET.categoria == categoria.id|stringformat:"s" %}selected{% endif %}>
-          {{ categoria.nombre }}
-        </option>
+<div class="main-container">
+  <section class="filtros">
+    <form method="get" class="filtros-form">
+      <label for="precio_min">Precio Mínimo:</label>
+      <input type="number" id="precio_min" name="precio_min" value="{{ precio_min|default_if_none:'' }}" min="0" step="0.01" readonly>
+      
+      <label for="precio_max">Precio Máximo:</label>
+      <input type="number" id="precio_max" name="precio_max" value="{{ precio_max|default_if_none:'' }}" min="0" step="0.01" readonly>
+      
+      <div id="precio-slider"></div>
+      
+      <button type="submit" class="filtros-boton">Filtrar</button>
+    </form>
+  </section>
+
+  <section class="productos">
+    <h2>Seguro que te gusta</h2>
+    <div class="product-grid">
+      {% for producto in productos %}
+        <a href="{% url 'producto_detalle' producto.pk %}" class="product-item">
+          <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+          <h3>{{ producto.nombre }}</h3>
+          <p>{{ producto.precio }} €</p>
+          <p class="categoria">{{ producto.categoria.nombre }}</p>
+          {% if producto.cantidad > 0 %}
+            <p class="stock">En stock</p>
+          {% else %}
+            <p class="no-stock">Fuera de stock</p>
+          {% endif %}
+        </a>
+      {% empty %}
+        <p>No hay productos disponibles.</p>
       {% endfor %}
-    </select>
-  </form> -->
-  <h2>Seguro que te gusta</h2>
-  <div class="product-grid">
-    {% for producto in productos %}
-      <a href="{% url 'producto_detalle' producto.pk %}" class="product-item">
-        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
-        <h3>{{ producto.nombre }}</h3>
-        <p>{{ producto.precio }} €</p>
-        <p class="categoria">{{ producto.categoria.nombre }}</p>
-      </a>
-    {% empty %}
-      <p>No hay productos disponibles.</p>
-    {% endfor %}
-  </div>
-</section>
+    </div>
+  </section>
+</div>
 
 <div id="back-to-top" onclick="scrollToTop()">
-  Volver arriba
+Volver arriba
 </div>
 <script>
   function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  // Configurar el slider de precios
+  document.addEventListener('DOMContentLoaded', function() {
+    var slider = document.getElementById('precio-slider');
+    noUiSlider.create(slider, {
+      start: [{{ precio_min|default_if_none:0 }}, {{ precio_max|default_if_none:1000 }}],
+      connect: true,
+      range: {
+        'min': 0,
+        'max': 50
+      },
+      step: 0.5,
+      tooltips: [true, true],
+      format: {
+        to: function (value) {
+          return value.toFixed(2);
+        },
+        from: function (value) {
+          return Number(value);
+        }
+      }
+    });
+
+    // Actualizar los campos de entrada cuando se cambie el slider
+    slider.noUiSlider.on('update', function (values, handle) {
+      document.getElementById('precio_min').value = values[0];
+      document.getElementById('precio_max').value = values[1];
+    });
+  });
 </script>
 
 {% endblock %}

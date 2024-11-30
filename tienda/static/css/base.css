@@ -487,3 +487,90 @@ footer {
 .confirmar-boton:hover {
     background-color: #555;
 }
+
+.main-container {
+    display: flex;
+    gap: 20px;
+}
+
+.filtros {
+    flex: 1;
+    max-width: 300px;
+    margin-top: 150px;
+}
+
+.filtros-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filtros-form label {
+    font-weight: bold;
+}
+.filtros-form input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#precio-slider {
+    margin: 20px 0;
+    
+    
+}
+
+.filtros-boton {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filtros-boton:hover {
+    background-color: #555;
+}
+
+.productos {
+    flex: 3;
+}
+
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.product-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    width: calc(33.333% - 20px);
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.product-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.product-item h3 {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.product-item p {
+    margin: 5px 0;
+}
+
+
+.categoria {
+    font-size: 0.9em;
+    color: #666;
+}
