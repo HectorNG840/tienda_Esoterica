@@ -154,6 +154,7 @@ def carrito_view(request):
             total += producto.precio * cantidad
     return render(request, 'carrito.html', {'carrito_items': carrito_items, 'total': total})
 
+@login_required
 def resumen_pedido(request):
     carrito_items = []
     total = 0
@@ -176,7 +177,9 @@ def resumen_pedido(request):
     if request.method == 'POST':
         envio_form = EnvioForm(request.POST)
         pago_form = PagoForm(request.POST)
-        if envio_form.is_valid() and pago_form.is_valid():
+        metodo_pago = request.POST.get('metodo_pago')
+        
+        if envio_form.is_valid() and (metodo_pago == 'contrareembolso' or pago_form.is_valid()):
             # Crear el pedido
             pedido = Pedido.objects.create(
                 user=request.user,
@@ -209,6 +212,7 @@ def resumen_pedido(request):
         'envio_form': envio_form,
         'pago_form': pago_form
     })
+    
 def confirmacion_pedido(request):
     return render(request, 'confirmacion_pedido.html')
 
