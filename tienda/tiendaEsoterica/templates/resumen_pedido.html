@@ -26,7 +26,10 @@
 
             <div class="resumen-detalles">
                 <div class="resumen-total">
-                    <p>Total: <span>{{ total }} €</span></p>
+                    <p>Total: <span>{{ total_final }} €</span></p>
+                    {% if gastos_envio > 0 %}
+                    <p>{{ mensaje_gastos_envio }}</p>
+                    {% endif %}
                     <button type="button" class="boton-pago" onclick="document.querySelector('.resumen-formulario').submit();">
                         Pagar ahora
                     </button>

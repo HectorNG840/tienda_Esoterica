@@ -138,26 +138,8 @@ def remove_from_cart(request, producto_id):
 def carrito_view(request):
     carrito_items = []
     total = 0
-    if request.user.is_authenticated:
-        carrito, created = Carrito.objects.get_or_create(user=request.user)
-        carrito_items = carrito.carritoitem_set.all()
-        total = sum(item.producto.precio * item.cantidad for item in carrito_items)
-    else:
-        carrito = request.session.get('carrito', {})
-        for producto_id, cantidad in carrito.items():
-            producto = get_object_or_404(Producto, id=producto_id)
-            carrito_items.append({
-                'producto': producto,
-                'cantidad': cantidad,
-                'total': producto.precio * cantidad
-            })
-            total += producto.precio * cantidad
-    return render(request, 'carrito.html', {'carrito_items': carrito_items, 'total': total})
-
-@login_required
-def resumen_pedido(request):
-    carrito_items = []
-    total = 0
+    gastos_envio = 0
+    mensaje_gastos_envio = ""
     
     if request.user.is_authenticated:
         carrito, created = Carrito.objects.get_or_create(user=request.user)
@@ -173,6 +155,47 @@ def resumen_pedido(request):
                 'total': producto.precio * cantidad
             })
             total += producto.precio * cantidad
+    if total < 30:
+        gastos_envio = 3
+        mensaje_gastos_envio = "+ 3€ de gastos de envío."
+
+    total_final = total + gastos_envio
+
+    return render(request, 'carrito.html', {
+        'carrito_items': carrito_items,
+        'total': total,
+        'gastos_envio': gastos_envio,
+        'total_final': total_final,
+        'mensaje_gastos_envio': mensaje_gastos_envio,
+    })
+
+def resumen_pedido(request):
+    carrito_items = []
+    total = 0
+    gastos_envio = 0
+    mensaje_gastos_envio = ""
+    
+    if request.user.is_authenticated:
+        carrito, created = Carrito.objects.get_or_create(user=request.user)
+        carrito_items = carrito.carritoitem_set.all()
+        total = sum(item.producto.precio * item.cantidad for item in carrito_items)
+    else:
+        carrito = request.session.get('carrito', {})
+        for producto_id, cantidad in carrito.items():
+            producto = get_object_or_404(Producto, id=producto_id)
+            carrito_items.append({
+                'producto': producto,
+                'cantidad': cantidad,
+                'total': producto.precio * cantidad
+            })
+            total += producto.precio * cantidad
+    
+    if total < 30:
+        gastos_envio = 3
+        mensaje_gastos_envio = "+ 3€ de gastos de envio."
+
+    total_final = total + gastos_envio
+
     
     if request.method == 'POST':
         envio_form = EnvioForm(request.POST)
@@ -207,13 +230,17 @@ def resumen_pedido(request):
         pago_form = PagoForm()
     
     return render(request, 'resumen_pedido.html', {
+        'envio_form': envio_form,
+        'pago_form': pago_form,
         'carrito_items': carrito_items,
         'total': total,
-        'envio_form': envio_form,
-        'pago_form': pago_form
+        'gastos_envio': gastos_envio,
+        'total_final': total_final,
+        'mensaje_gastos_envio': mensaje_gastos_envio,
     })
     
 def confirmacion_pedido(request):
+    
     return render(request, 'confirmacion_pedido.html')
 
 @login_required
