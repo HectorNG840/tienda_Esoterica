@@ -10,6 +10,8 @@ from .forms import PerfilUpdateForm
 from .models import Perfil
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, EnvioForm, PagoForm
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 def inicio(request):
     categorias = Categoria.objects.all()
@@ -39,8 +41,15 @@ def inicio(request):
 
 @login_required
 def perfil(request):
-    perfil = Perfil.objects.get(user=request.user)
+    if request.user.is_superuser:
+        return HttpResponseRedirect(reverse('admin:index'))  # Redirigir al panel de administración
+    try:
+        perfil = Perfil.objects.get(user=request.user)
+    except Perfil.DoesNotExist:
+        # Si el perfil no existe, podrías redirigir al usuario a una página para crearlo o mostrar un error
+        return redirect('crear_perfil')  # Ajusta esta ruta según tus necesidades
     return render(request, 'perfil.html', {'perfil': perfil})
+
 
 
 def register(request):
