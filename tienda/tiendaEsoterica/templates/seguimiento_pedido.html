@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Seguimiento de Pedido{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/seguimiento_pedido.css' %}">
+<main>
+    <h2>Seguimiento de Pedido</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label for="tracking_id">ID de Seguimiento:</label>
+        <input type="text" id="tracking_id" name="tracking_id" required>
+        <button type="submit">Ver Pedido</button>
+    </form>
+    {% if pedido %}
+        <h3>Detalles del Pedido</h3>
+        <table class="tabla-pedidos">
+            <thead>
+                <tr>
+                    <th>ID del Pedido</th>
+                    <th>Fecha del Pedido</th>
+                    <th>Dirección de Envío</th>
+                    <th>Productos</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ pedido.id }}</td>
+                    <td>{{ pedido.fecha_pedido|date:"d M, Y" }}</td>
+                    <td>{{ pedido.direccion_envio }}</td>
+                    <td>
+                        <ul class="productos-lista">
+                            {% for item in pedido.items.all %}
+                                <li>
+                                    <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" class="producto-img">
+                                    <div class="producto-info">
+                                        <strong>{{ item.cantidad }} x {{ item.producto.nombre }}</strong>
+                                        <span class="producto-precio">{{ item.producto.precio }}€</span>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td class="total">{{ pedido.precio_total }}€</td>
+                    <td class="estado {{ pedido.estado|lower }}">{{ pedido.get_estado_display }}</td>
+                </tr>
+            </tbody>
+        </table>
+    {% else %}
+        <p class="sin-pedidos">No se encontró ningún pedido con esa ID.</p>
+    {% endif %}
+</main>
+{% endblock %}

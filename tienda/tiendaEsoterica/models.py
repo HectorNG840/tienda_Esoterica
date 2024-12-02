@@ -47,7 +47,7 @@ class Pedido(models.Model):
         ('pasarela', 'Pasarela de Pago'),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pedidos')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)    
     fecha_pedido = models.DateTimeField(default=timezone.now)
     estado = models.CharField(max_length=1, choices=ESTADO_CHOICES, default='P')
     metodo_pago = models.CharField(max_length=20, choices=METODO_PAGO_CHOICES, default='pasarela')

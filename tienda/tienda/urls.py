@@ -25,6 +25,8 @@ urlpatterns = [
     path('resumen_pedido/', views.resumen_pedido, name='resumen_pedido'),
     path('confirmacion_pedido/<int:pedido_id>/', views.confirmacion_pedido, name='confirmacion_pedido'),
     path('mis_pedidos/', views.mis_pedidos, name='mis_pedidos'),
+    path('seguimiento_pedido/', views.seguimiento_pedido, name='seguimiento_pedido'),
+
 
 ]
 

@@ -197,9 +197,7 @@ def resumen_pedido(request):
     if total < 30:
         gastos_envio = 3
         mensaje_gastos_envio = "+ 3€ de gastos de envio."
-
     total_final = total + gastos_envio
-
     
     if request.method == 'POST':
         envio_form = EnvioForm(request.POST)
@@ -209,7 +207,7 @@ def resumen_pedido(request):
         if envio_form.is_valid() and (metodo_pago == 'contrareembolso' or pago_form.is_valid()):
             # Crear el pedido
             pedido = Pedido.objects.create(
-                user=request.user,
+                user=request.user if request.user.is_authenticated else None,
                 estado='P',
                 direccion_envio=envio_form.cleaned_data['direccion_envio']
             )
@@ -228,6 +226,28 @@ def resumen_pedido(request):
             else:
                 request.session['carrito'] = {}  # Limpiar el carrito en la sesión
             
+            # Enviar el ID de seguimiento por correo electrónico
+            if not request.user.is_authenticated:
+                customer_email = envio_form.cleaned_data['email']
+                tracking_id = pedido.numero_seguimiento
+                html_message = render_to_string('confirmacion_pedido.html', {
+                    'product': ', '.join([f"{item.cantidad} x {item.producto.nombre}" for item in pedido.items.all()]),
+                    'amount': f"${pedido.precio_total}",
+                    'address': pedido.direccion_envio,
+                    'tracking_id': tracking_id
+                })
+                plain_message = strip_tags(html_message)
+                from_email = settings.EMAIL_HOST_USER
+                to = customer_email
+                send_mail(
+                    'Confirmación de compra',
+                    plain_message,
+                    from_email,
+                    [to],
+                    html_message=html_message,
+                    fail_silently=False,
+                )
+            
             return redirect('confirmacion_pedido', pedido_id=pedido.id)
     else:
         envio_form = EnvioForm()
@@ -242,6 +262,13 @@ def resumen_pedido(request):
         'total_final': total_final,
         'mensaje_gastos_envio': mensaje_gastos_envio,
     })
+    
+def seguimiento_pedido(request):
+    if request.method == 'POST':
+        tracking_id = request.POST.get('tracking_id')
+        pedido = get_object_or_404(Pedido, numero_seguimiento=tracking_id)
+        return render(request, 'seguimiento_pedido.html', {'pedido': pedido})
+    return render(request, 'seguimiento_pedido.html')
     
 @login_required
 def confirmacion_pedido(request, pedido_id):
