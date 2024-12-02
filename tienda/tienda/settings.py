@@ -154,4 +154,9 @@ AUTHENTICATION_BACKENDS = [
 LOGIN_URL = '/login/'  # Ajusta según tu URL de inicio de sesión
 LOGIN_REDIRECT_URL = '/'  # Redirige a la página principal
 
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'alonsoportilo.sanchez@gmail.com'
+EMAIL_HOST_PASSWORD = 'aoadbdxjirfajart'

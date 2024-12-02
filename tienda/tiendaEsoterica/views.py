@@ -9,6 +9,10 @@ from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from .forms import PerfilUpdateForm
 from .models import Perfil
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, EnvioForm, PagoForm
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.conf import settings
 
 
 def inicio(request):
@@ -224,7 +228,7 @@ def resumen_pedido(request):
             else:
                 request.session['carrito'] = {}  # Limpiar el carrito en la sesión
             
-            return redirect('confirmacion_pedido')
+            return redirect('confirmacion_pedido', pedido_id=pedido.id)
     else:
         envio_form = EnvioForm()
         pago_form = PagoForm()
@@ -239,11 +243,48 @@ def resumen_pedido(request):
         'mensaje_gastos_envio': mensaje_gastos_envio,
     })
     
-def confirmacion_pedido(request):
-    
-    return render(request, 'confirmacion_pedido.html')
+@login_required
+def confirmacion_pedido(request, pedido_id):
+    # Obtener el pedido del usuario
+    pedido = get_object_or_404(Pedido, id=pedido_id, user=request.user)
+
+    # Extraer los datos necesarios del pedido
+    customer_email = request.user.email
+    product = ', '.join([f"{item.cantidad} x {item.producto.nombre}" for item in pedido.items.all()])
+    amount = f"${pedido.precio_total}"
+    address = pedido.direccion_envio
+    tracking_id = pedido.numero_seguimiento
+
+    # Renderizar la plantilla HTML
+    html_message = render_to_string('confirmacion_pedido.html', {
+        'product': product,
+        'amount': amount,
+        'address': address,
+        'tracking_id': tracking_id
+    })
+    plain_message = strip_tags(html_message)
+    from_email = settings.EMAIL_HOST_USER
+    to = customer_email
+
+    # Enviar el correo
+    send_mail(
+        'Confirmación de compra',
+        plain_message,
+        from_email,
+        [to],
+        html_message=html_message,
+        fail_silently=False,
+    )
+
+    return render(request, 'confirmacion_pedido.html', {
+        'product': product,
+        'amount': amount,
+        'address': address,
+        'tracking_id': tracking_id
+    })
 
 @login_required
 def mis_pedidos(request):
     pedidos = Pedido.objects.filter(user=request.user).prefetch_related('items__producto')
     return render(request, 'mis_pedidos.html', {'pedidos': pedidos})
+
