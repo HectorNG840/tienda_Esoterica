@@ -190,11 +190,14 @@ class EnvioForm(forms.Form):
     
     metodo_pago = forms.ChoiceField(
         choices=METODO_PAGO_CHOICES,
-        widget=forms.Select(attrs={'class': 'form-control'}),
+        widget=forms.Select(attrs={
+            'class': 'form-control metodo-pago-select'
+        }),
         error_messages={
             'required': 'Este campo es obligatorio.',
         }
     )
+
 
 class PagoForm(forms.Form):
     numero_tarjeta = forms.CharField(

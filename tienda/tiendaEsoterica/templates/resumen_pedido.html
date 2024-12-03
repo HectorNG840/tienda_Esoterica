@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base-minimal.html' %}
 {% load static %}
 
 {% block title %}Resumen del Pedido{% endblock %}
@@ -80,7 +80,6 @@
         
                     metodoPagoSelect.addEventListener('change', togglePagoFormulario);
         
-                    // Inicializa la visibilidad al cargar la página
                     togglePagoFormulario();
                 });
             </script>

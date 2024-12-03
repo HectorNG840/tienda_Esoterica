@@ -185,6 +185,28 @@ body {
     box-shadow: 0 0 5px rgba(230, 57, 70, 0.3);
 }
 
+.metodo-pago-select {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #444;
+    background-color: #fff;
+    border: 2px solid #8a2be2;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.metodo-pago-select:hover {
+    border-color: #6a0dad;
+}
+
+.metodo-pago-select:focus {
+    outline: none;
+    box-shadow: 0 0 8px #6a0dad, 0 0 4px #ffffff inset;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .resumen-layout {

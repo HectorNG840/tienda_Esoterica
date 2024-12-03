@@ -23,6 +23,7 @@ header {
     position: relative;
     height: 65px;
     overflow: visible;
+    position: fixed;
 }
 
 
@@ -71,6 +72,7 @@ nav.appnavbar .search-bar .search-button {
     cursor: pointer;
     padding: 0;
 }
+
 
 nav.appnavbar .search-bar .search-icon {
     height: 20px;
@@ -587,11 +589,12 @@ footer {
 
 .quienes-somos {
     background: linear-gradient(135deg, #f9f9f9, #ffffff);
-    padding: 40px 20px;
+    padding: 20px 20px;
     text-align: center;
     border-radius: 15px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     margin: 30px auto;
+    margin-top: -40px;
     max-width: 1000px;
 }
 
@@ -606,7 +609,7 @@ footer {
 .quienes-content img {
     max-width: 150px;
     border-radius: 50%;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .quienes-content p {

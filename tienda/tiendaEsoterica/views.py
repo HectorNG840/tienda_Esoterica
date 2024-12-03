@@ -294,13 +294,22 @@ def resumen_pedido(request):
         'total_final': total_final,
         'mensaje_gastos_envio': mensaje_gastos_envio,
     })
-    
+
+
 def seguimiento_pedido(request):
+    pedido = None  # Inicializa la variable del pedido como None
+    searched = False  # Indica si se ha realizado una búsqueda
+
     if request.method == 'POST':
+        searched = True  # El usuario hizo clic en buscar
         tracking_id = request.POST.get('tracking_id')
-        pedido = get_object_or_404(Pedido, numero_seguimiento=tracking_id)
-        return render(request, 'seguimiento_pedido.html', {'pedido': pedido})
-    return render(request, 'seguimiento_pedido.html')
+        try:
+            pedido = Pedido.objects.get(numero_seguimiento=tracking_id)
+        except Pedido.DoesNotExist:
+            pedido = None  # Pedido no encontrado
+
+    return render(request, 'seguimiento_pedido.html', {'pedido': pedido, 'searched': searched})
+
     
 def confirmacion_pedido(request, pedido_id):
     # Obtener el pedido del usuario

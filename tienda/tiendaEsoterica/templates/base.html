@@ -62,14 +62,11 @@
 
                 <div class="nav-links">
                     <a href="{% url 'quienes_somos' %}"  class="button cesta-button">Quiénes Somos</a>
-                    <a href="/carrito" class="button cesta-button">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
+                    
                     {% if user.is_authenticated %}
                     <a href="/perfil/" class="button">
-                        <i class="fa-solid fa-user"></i>
+                        <i class="fa-solid fa-user" style="margin-right: 5px;"></i>
                         {{ user.first_name }}
-                        {{ user.last_name }}
                     </a>
                     {% else %}
                     <a href="/login/" class="button">
@@ -79,9 +76,12 @@
                     {% if not user.is_authenticated %}
                     {% url 'seguimiento_pedido' as seguimiento_pedido_url %}
                         {% if seguimiento_pedido_url %}
-                            <a href="{{ seguimiento_pedido_url }}" class="button">Seguimiento de Pedido</a>
+                            <a href="{{ seguimiento_pedido_url }}" class="button">Pedidos</a>
                         {% endif %}
                     {% endif %}
+                    <a href="/carrito" class="button cesta-button">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </a>
                 </div>
             </nav>
         </header>

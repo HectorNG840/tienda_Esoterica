@@ -1,16 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'base-minimal.html' %}
 {% load static %}
 {% block title %}Seguimiento de Pedido{% endblock %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/seguimiento_pedido.css' %}">
-<main>
+<div class="contenedor-pedidos">
     <h2>Seguimiento de Pedido</h2>
     <form method="post">
         {% csrf_token %}
         <label for="tracking_id">ID de Seguimiento:</label>
         <input type="text" id="tracking_id" name="tracking_id" required>
-        <button type="submit">Ver Pedido</button>
+        <button type="submit" class="form-button">Ver Pedido</button>
     </form>
+
     {% if pedido %}
         <h3>Detalles del Pedido</h3>
         <table class="tabla-pedidos">
@@ -47,8 +48,8 @@
                 </tr>
             </tbody>
         </table>
-    {% else %}
+    {% elif searched %}
         <p class="sin-pedidos">No se encontró ningún pedido con esa ID.</p>
     {% endif %}
-</main>
+</div>
 {% endblock %}

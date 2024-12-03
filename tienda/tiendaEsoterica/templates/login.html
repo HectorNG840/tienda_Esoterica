@@ -1,13 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'base-minimal.html' %}
 {% load static %}
 
 {% block title %}Iniciar Sesión{% endblock %}
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/login.css' %}">
-<div class="home-link">
-    <a href="{% url 'inicio' %}">Página Principal</a>
-</div>
 <div class="login-container">
     <h2>Iniciar Sesión</h2>
     <form method="post" novalidate>
