@@ -131,7 +131,6 @@ class PerfilUpdateForm(forms.ModelForm):
             return self.instance.fecha_nacimiento
         return self.cleaned_data.get('fecha_nacimiento')
 
-from django import forms
 
 class EnvioForm(forms.Form):
     nombre = forms.CharField(
@@ -177,6 +176,7 @@ class EnvioForm(forms.Form):
 
 class PagoForm(forms.Form):
     numero_tarjeta = forms.CharField(
+        validators=[RegexValidator(regex=r'^\d{16}$', message="El número de tarjeta debe contener exactamente 16 dígitos.")],
         max_length=16,
         label="Número de Tarjeta",
         widget=forms.TextInput(attrs={'class': 'form-control'}),
@@ -186,6 +186,8 @@ class PagoForm(forms.Form):
         }
     )
     fecha_expiracion = forms.CharField(
+        
+        validators=[RegexValidator(regex=r'^(0[1-9]|1[0-2])\/?([0-9]{2})$', message="La fecha debe estar en formato MM/AA.")],
         max_length=5,
         label="Fecha de Expiración (MM/AA)",
         widget=forms.TextInput(attrs={'class': 'form-control'}),
@@ -194,7 +196,9 @@ class PagoForm(forms.Form):
             'max_length': 'La fecha debe estar en formato MM/AA.',
         }
     )
+    
     cvv = forms.CharField(
+        validators=[RegexValidator(regex=r'^\d{3}$', message="El CVV debe contener exactamente 3 dígitos.")],
         max_length=3,
         label="CVV",
         widget=forms.TextInput(attrs={'class': 'form-control'}),
