@@ -17,11 +17,12 @@ html, body {
 header {
     background: #000;
     color: #fff;
-    padding: 0.1px 0;
     text-align: center;
-    position: fixed;
     width: 100%;
     z-index: 10;
+    position: relative;
+    height: 65px;
+    overflow: visible;
 }
 
 
@@ -33,12 +34,16 @@ nav.appnavbar {
     padding: 0 20px;
     background-image: url("../images/fondoNav.png");
     background-size: cover; /* Ajusta el tamaño de la imagen para cubrir toda la barra */
-    background-position: center
+    background-position: center;
+    height: 100%;
 }
 
 nav.appnavbar .logo img {
-    height: 100px; /* Ajusta la altura del logo según sea necesario */
-    width: auto;  /* Mantiene la proporción del logo */
+    height: 90px;
+    width: auto;
+    position: absolute;
+    top: -12px;
+    left: 30px;
 }
 
 nav.appnavbar .search-bar {
@@ -113,6 +118,7 @@ nav.appnavbar .search-bar .search-icon {
     gap: 5px;
     cursor: pointer;
     font-size: 16px;
+    font-family: 'Poppins', sans-serif;
 }
 
 .dropdown-toggle i {
@@ -159,6 +165,7 @@ nav.appnavbar .search-bar .search-icon {
     border: none;
     padding: 10px;
     font-size: 14px;
+    font-family: 'Poppins', sans-serif;
 }
 
 .search-form input[type="text"]:focus {
@@ -216,6 +223,7 @@ footer {
     display: flex;
     align-items: center;
     transition: background-color 0.3s;
+    font-size: 0.9rem;
 }
 
 .button:hover {
@@ -648,6 +656,22 @@ footer {
     }
     50% {
         transform: translateY(-10px);
+    }
+}
+
+@media (max-width: 950px) {
+    nav.appnavbar .logo img {
+        height: 60px;
+        width: auto;
+        position: absolute;
+        top: 4px;
+        left: -11px;
+    }
+}
+
+@media (max-width: 767px) {
+    .button {
+        font-size: 0.5rem;
     }
 }
 
