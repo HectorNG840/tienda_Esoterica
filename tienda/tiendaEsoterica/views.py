@@ -208,6 +208,7 @@ def resumen_pedido(request):
             # Crear el pedido
             pedido = Pedido.objects.create(
                 user=request.user if request.user.is_authenticated else None,
+                email=envio_form.cleaned_data['email'],
                 estado='P',
                 direccion_envio=envio_form.cleaned_data['direccion_envio']
             )
@@ -228,6 +229,7 @@ def resumen_pedido(request):
             
             # Enviar el ID de seguimiento por correo electrónico
             if not request.user.is_authenticated:
+
                 customer_email = envio_form.cleaned_data['email']
                 tracking_id = pedido.numero_seguimiento
                 html_message = render_to_string('confirmacion_pedido.html', {
@@ -270,13 +272,15 @@ def seguimiento_pedido(request):
         return render(request, 'seguimiento_pedido.html', {'pedido': pedido})
     return render(request, 'seguimiento_pedido.html')
     
-@login_required
 def confirmacion_pedido(request, pedido_id):
     # Obtener el pedido del usuario
-    pedido = get_object_or_404(Pedido, id=pedido_id, user=request.user)
+    if request.user.is_authenticated:
+     pedido = get_object_or_404(Pedido, id=pedido_id, user=request.user)
+    else:
+        pedido = get_object_or_404(Pedido, id=pedido_id)
 
     # Extraer los datos necesarios del pedido
-    customer_email = request.user.email
+    customer_email = pedido.email
     product = ', '.join([f"{item.cantidad} x {item.producto.nombre}" for item in pedido.items.all()])
     amount = f"${pedido.precio_total}"
     address = pedido.direccion_envio
