@@ -32,33 +32,33 @@ nav.appnavbar {
     align-items: center;
     padding: 0 20px;
     background-image: url("../images/fondoNav.png");
-    background-size: cover; /* Ajusta el tamaño de la imagen para cubrir toda la barra */
+    background-size: cover; 
     background-position: center
 }
 
 nav.appnavbar .logo img {
-    height: 100px; /* Ajusta la altura del logo según sea necesario */
-    width: auto;  /* Mantiene la proporción del logo */
+    height: 100px; 
+    width: auto; 
 }
 
 nav.appnavbar .search-bar {
     position: relative;
     flex: 1;
     margin: 0 20px;
-    max-width: 600px; /* Aumentar el ancho máximo de la barra de búsqueda */
+    max-width: 600px; 
 }
 
 nav.appnavbar .search-bar input {
     width: 100%;
-    padding: 10px 40px 10px 20px; /* Reducir el padding para hacer la barra más pequeña */
-    font-size: 14px; /* Reducir el tamaño de la fuente */
+    padding: 10px 40px 10px 20px; 
+    font-size: 14px; 
     border: none;
     border-radius: 5px;
 }
 
 nav.appnavbar .search-bar .search-button {
     position: absolute;
-    right: 10px; /* Mover la posición del botón más a la derecha */
+    right: 10px;
     top: 55%;
     transform: translateY(-50%);
     border: none;
@@ -229,10 +229,10 @@ footer {
 
 .cesta-icon {
     margin-left: 0.5rem;
-    height: 35px; /* Ajusta el tamaño de la imagen según sea necesario */
+    height: 35px;
 }
 .producto-detalle {
-    margin-top: 20px !important; /* Añade un margen superior para separar de la navbar */
+    margin-top: 20px !important;
     display: flex;
     gap: 20px;
 }
@@ -405,7 +405,7 @@ footer {
 
 .resumen-boton {
     background: linear-gradient(360deg, #e519f0 0%, #c639ea 50%, #7729d7 100%);
-    color: #fff !important; /* Asegúrate de que el color del texto sea blanco */
+    color: #fff !important;
     padding: 10px 20px;
     text-decoration: none;
     border-radius: 5px;
@@ -414,7 +414,7 @@ footer {
 
 .resumen-boton:hover {
     transform: scale(1.1);
-    color: #fff; /* Asegúrate de que el color del texto siga siendo blanco al hacer hover */
+    color: #fff;
 }
 
 .resumen-container {
@@ -437,8 +437,8 @@ footer {
 }
 
 .resumen-item-imagen {
-    width: 80px; /* Ajusta el tamaño de la imagen */
-    height: 80px; /* Ajusta el tamaño de la imagen */
+    width: 80px;
+    height: 80px;
     object-fit: cover;
     border-radius: 10px;
 }
@@ -517,6 +517,7 @@ footer {
 
 #precio-slider {
     margin: 20px 0;
+    margin-top: 40px;
     
     
 }

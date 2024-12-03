@@ -159,6 +159,10 @@ def remove_from_cart(request, producto_id):
             else:
                 del carrito[str(producto_id)]
         request.session['carrito'] = carrito
+
+    producto.cantidad -= cantidad
+    producto.save()
+    
     return redirect('carrito')
 
 def carrito_view(request):
