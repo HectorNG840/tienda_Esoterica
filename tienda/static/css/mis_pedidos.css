@@ -1,6 +1,6 @@
-main {
+.contenedor-pedidos {
     max-width: 900px;
-    margin: 50px auto;
+    margin: 40px auto;
     padding: 30px;
     background-color: #fff;
     border-radius: 12px;
@@ -10,6 +10,7 @@ main {
 h2 {
     text-align: center;
     margin-bottom: 25px;
+    margin-top: -5px;
     color: #333;
     font-size: 26px;
     font-weight: 700;
@@ -21,13 +22,19 @@ table {
     margin-top: 20px;
     font-size: 15px;
     color: #555;
+    overflow-x: auto;
+    display: block;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    vertical-align: middle;
 }
 
 th {
     background-color: #8a2be2;
     color: white;
-    padding: 15px;
-    text-align: center;
     font-weight: 700;
     font-size: 15px;
     text-transform: uppercase;
@@ -36,12 +43,6 @@ th {
 
 tr {
     border-bottom: 1px solid #ddd;
-}
-
-td {
-    padding: 15px;
-    text-align: center;
-    vertical-align: middle;
 }
 
 tr:nth-child(even) {
@@ -87,11 +88,6 @@ td li strong {
     margin-left: auto;
 }
 
-td:last-child {
-    font-weight: bold;
-    color: #8a2be2;
-}
-
 td.estado {
     font-size: 14px;
     font-weight: 600;
@@ -100,6 +96,10 @@ td.estado {
     display: table-cell;
 }
 
+td:last-child {
+    font-weight: bold;
+    color: #8a2be2;
+}
 
 .sin-pedidos {
     text-align: center;
@@ -107,15 +107,6 @@ td.estado {
     font-size: 18px;
     margin-top: 25px;
     font-style: italic;
-}
-
-.producto-img {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-right: 12px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .estado.p {
@@ -138,3 +129,71 @@ td.estado {
     background-color: #fde8e8;
 }
 
+/* Responsiveness */
+@media (max-width: 768px) {
+    .contenedor-pedidos {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    table {
+        font-size: 13px;
+        overflow-x: auto;
+        display: block;
+    }
+
+    th, td {
+        font-size: 12px;
+        padding: 10px;
+    }
+
+    td ul {
+        flex-wrap: wrap;
+    }
+
+    td li {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    td li img {
+        margin-bottom: 8px;
+    }
+
+    td li strong, .producto-precio {
+        margin: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    h2 {
+        font-size: 18px;
+    }
+
+    .contenedor-pedidos {
+        margin: 20px;
+        padding: 10px;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    th, td {
+        font-size: 11px;
+        padding: 8px;
+    }
+
+    td li img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .sin-pedidos {
+        font-size: 14px;
+    }
+}

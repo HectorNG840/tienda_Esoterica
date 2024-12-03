@@ -13,6 +13,9 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 def inicio(request):
@@ -20,23 +23,38 @@ def inicio(request):
 
     query = request.GET.get('search', '').strip()
     categoria_id = request.GET.get('categoria', None)
+    precio_min = request.GET.get('precio_min')
+    precio_max = request.GET.get('precio_max')
 
     productos = Producto.objects.all()
     if categoria_id:
         productos = productos.filter(categoria_id=categoria_id)
     if query:
         productos = productos.filter(nombre__icontains=query)
+    if precio_min:
+        productos = productos.filter(precio__gte=precio_min)
+    if precio_max:
+        productos = productos.filter(precio__lte=precio_max)
 
     return render(request, 'inicio.html', {
         'productos': productos,
         'categorias': categorias,
+        'precio_min': precio_min,
+        'precio_max': precio_max,
     })
 
 
 @login_required
 def perfil(request):
-    perfil = Perfil.objects.get(user=request.user)
+    if request.user.is_superuser:
+        return HttpResponseRedirect(reverse('admin:index'))  # Redirigir al panel de administración
+    try:
+        perfil = Perfil.objects.get(user=request.user)
+    except Perfil.DoesNotExist:
+        # Si el perfil no existe, podrías redirigir al usuario a una página para crearlo o mostrar un error
+        return redirect('crear_perfil')  # Ajusta esta ruta según tus necesidades
     return render(request, 'perfil.html', {'perfil': perfil})
+
 
 
 def register(request):
@@ -91,14 +109,21 @@ def editar_perfil(request):
     if request.method == 'POST':
         form = PerfilUpdateForm(request.POST, instance=perfil)
         if form.is_valid():
-            form.save()
-            return redirect('perfil')  # Redirigir al perfil después de guardar los cambios
+            form.save()  # El formulario ya maneja el valor de fecha_nacimiento
+            return redirect('perfil')
     else:
         form = PerfilUpdateForm(instance=perfil)
     return render(request, 'editar_perfil.html', {'form': form})
+
+
+def quienes_somos(request):
+    return render(request, 'quienes_somos.html')
+
 def add_to_cart(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
     cantidad = int(request.POST.get('cantidad', 1))
+    if producto.cantidad < cantidad:
+        return redirect('producto_detalle', pk=producto_id)
     if request.user.is_authenticated:
         carrito, created = Carrito.objects.get_or_create(user=request.user)
     else:
@@ -116,6 +141,8 @@ def add_to_cart(request, producto_id):
     else:
         carrito_item.cantidad = cantidad
     carrito_item.save()
+    producto.cantidad -= cantidad
+    producto.save()
     return redirect('carrito')
 
 def remove_from_cart(request, producto_id):
@@ -137,6 +164,10 @@ def remove_from_cart(request, producto_id):
             else:
                 del carrito[str(producto_id)]
         request.session['carrito'] = carrito
+
+    producto.cantidad -= cantidad
+    producto.save()
+    
     return redirect('carrito')
 
 def carrito_view(request):

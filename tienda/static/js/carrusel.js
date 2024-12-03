@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const img = document.getElementById("img");
 
     function renderCarrusel() {
-        img.innerHTML = `<img class="img" src="${imagenes[actual]}" alt="Imagen ${actual + 1}" loading="lazy">`;
-    }
+        img.innerHTML = `<img class="img" src="${imagenes[actual]}" alt="Imagen ${actual + 1}" loading="lazy" onclick="location.href='${rutas[actual]}'">`;
+    }    
 
     atras.addEventListener("click", () => {
         actual = (actual === 0) ? imagenes.length - 1 : actual - 1;

@@ -20,16 +20,16 @@
                             </a>
                             <p class="carrito-item-precio">Precio: <span>{{ item.producto.precio }} €</span></p>
                             <div class="carrito-item-cantidad">
-                                <form action="{% url 'add_to_cart' item.producto.id %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="cantidad" value="1">
-                                    <button type="submit" class="cantidad-boton">+</button>
-                                </form>
-                                <span class="cantidad-valor">{{ item.cantidad }}</span>
                                 <form action="{% url 'remove_from_cart' item.producto.id %}" method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="cantidad" value="-1">
                                     <button type="submit" class="cantidad-boton">-</button>
+                                </form>
+                                <span class="cantidad-valor">{{ item.cantidad }}</span>
+                                <form action="{% url 'add_to_cart' item.producto.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="cantidad" value="1">
+                                    <button type="submit" class="cantidad-boton">+</button>
                                 </form>
                             </div>
                         </div>

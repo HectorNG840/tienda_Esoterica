@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Registro{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
 <div class="register-container">
-    <h2>Regístrate</h2>
+    <h2>Registro</h2>
     <form method="post" novalidate>
         {% csrf_token %}
         

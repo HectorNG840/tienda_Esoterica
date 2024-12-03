@@ -16,6 +16,7 @@ urlpatterns = [
     path('perfil/', views.perfil, name='perfil'),
     path('perfil/editar/', views.editar_perfil, name='editar_perfil'),
     path('admin/', admin.site.urls), 
+    path('quienes-somos/', views.quienes_somos, name='quienes_somos'),
     # Otras rutas, como detalles de productos
     path('producto/<int:pk>/', views.producto_detalle, name='producto_detalle'),
     
@@ -25,8 +26,8 @@ urlpatterns = [
     path('resumen_pedido/', views.resumen_pedido, name='resumen_pedido'),
     path('confirmacion_pedido/<int:pedido_id>/', views.confirmacion_pedido, name='confirmacion_pedido'),
     path('mis_pedidos/', views.mis_pedidos, name='mis_pedidos'),
-    path('seguimiento_pedido/', views.seguimiento_pedido, name='seguimiento_pedido'),
 
+    path('seguimiento_pedido/', views.seguimiento_pedido, name='seguimiento_pedido'),
 
 ]
 
