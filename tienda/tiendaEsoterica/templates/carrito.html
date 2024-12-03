@@ -38,7 +38,10 @@
             </div>
             
             <div class="carrito-resumen">
-                <p class="carrito-total">Total: <span>{{ total }} €</span></p>
+                <p class="carrito-total">Total: <span>{{ total_final }} €</span></p>
+                {% if gastos_envio > 0 %}
+                    <p class="mensaje-gastos-envio">{{ mensaje_gastos_envio }}</p>
+                {% endif %}
                 <a href="{% url 'resumen_pedido' %}" class="boton-pago">Pagar</a>
             </div>
         </div>

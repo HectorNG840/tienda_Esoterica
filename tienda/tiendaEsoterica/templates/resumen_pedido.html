@@ -26,7 +26,10 @@
 
             <div class="resumen-detalles">
                 <div class="resumen-total">
-                    <p>Total: <span>{{ total }} €</span></p>
+                    <p>Total: <span>{{ total_final }} €</span></p>
+                    {% if gastos_envio > 0 %}
+                    <p>{{ mensaje_gastos_envio }}</p>
+                    {% endif %}
                     <button type="button" class="boton-pago" onclick="document.querySelector('.resumen-formulario').submit();">
                         Pagar ahora
                     </button>
@@ -46,7 +49,7 @@
                                 </div>
                             {% endfor %}
                         </div>
-                        <div class="pago-formulario">
+                        <div class="pago-formulario" id="pago-formulario">
                             <h3>Datos de Pago</h3>
                             {% for field in pago_form %}
                                 <div class="form-group">
@@ -62,6 +65,25 @@
                 </form>
                 
             </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const metodoPagoSelect = document.querySelector('select[name="metodo_pago"]');
+                    const pagoFormulario = document.getElementById('pago-formulario');
+        
+                    function togglePagoFormulario() {
+                        if (metodoPagoSelect.value === 'contrareembolso') {
+                            pagoFormulario.style.display = 'none';
+                        } else {
+                            pagoFormulario.style.display = 'block';
+                        }
+                    }
+        
+                    metodoPagoSelect.addEventListener('change', togglePagoFormulario);
+        
+                    // Inicializa la visibilidad al cargar la página
+                    togglePagoFormulario();
+                });
+            </script>
         </div>
     {% else %}
         <p class="resumen-vacio">Tu carrito está vacío.</p>

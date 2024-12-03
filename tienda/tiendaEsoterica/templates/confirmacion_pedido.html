@@ -7,6 +7,12 @@
     <h2 style="color: #4CAF50; font-size: 2rem; margin-bottom: 20px;">Confirmación de Pedido</h2>
     <p style="color: #333; font-size: 1.2rem; margin-bottom: 10px;">Gracias por tu compra. Tu pedido ha sido confirmado.</p>
     <p style="color: #555; font-size: 1rem; margin-bottom: 20px;">Recibirás un correo electrónico con los detalles de tu pedido.</p>
+    <p style="color: #333; font-size: 1rem; margin-bottom: 10px;">Producto: {{ product }}</p>
+    <p style="color: #333; font-size: 1rem; margin-bottom: 10px;">Importe: {{ amount }}</p>
+    <p style="color: #333; font-size: 1rem; margin-bottom: 10px;">Dirección de entrega: {{ address }}</p>
+    {% if tracking_id %}
+    <p style="color: #333; font-size: 1rem; margin-bottom: 10px;">ID de seguimiento: {{ tracking_id }}</p>
+    {% endif %}
     <p>
         <a href="{% url 'inicio' %}" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: #fff; text-decoration: none; font-weight: bold; border-radius: 5px; transition: background-color 0.3s;">
             Volver al inicio

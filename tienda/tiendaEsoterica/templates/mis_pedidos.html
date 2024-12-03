@@ -27,12 +27,12 @@
                         <td>{{ pedido.direccion_envio }}</td>
                         <td>
                             <ul class="productos-lista">
-                                {% for producto in pedido.productos.all %}
+                                {% for item in pedido.items.all %}
                                     <li>
-                                        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="producto-img">
+                                        <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" class="producto-img">
                                         <div class="producto-info">
-                                            <strong>{{ producto.nombre }}</strong>
-                                            <span class="producto-precio">{{ producto.precio }}€</span>
+                                            <strong>{{ item.cantidad }} x {{ item.producto.nombre }}</strong>
+                                            <span class="producto-precio">{{ item.producto.precio }}€</span>
                                         </div>
                                     </li>
                                 {% endfor %}

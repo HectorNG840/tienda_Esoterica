@@ -141,6 +141,15 @@ class EnvioForm(forms.Form):
             'max_length': 'El nombre no puede superar los 100 caracteres.',
         }
     )
+    email = forms.EmailField(
+        max_length=100,
+        widget=forms.EmailInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'El correo electrónico no puede superar los 100 caracteres.',
+            'invalid': 'Introduce una dirección de correo electrónico válida.',
+        }
+    )
     direccion_envio = forms.CharField(
         max_length=150,
         widget=forms.TextInput(attrs={'class': 'form-control'}),
@@ -171,6 +180,19 @@ class EnvioForm(forms.Form):
         error_messages={
             'required': 'Este campo es obligatorio.',
             'max_length': 'El país no puede superar los 100 caracteres.',
+        }
+    )
+    
+    METODO_PAGO_CHOICES = [
+        ('contrareembolso', 'Contrareembolso'),
+        ('pasarela', 'Pasarela de Pago'),
+    ]
+    
+    metodo_pago = forms.ChoiceField(
+        choices=METODO_PAGO_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
         }
     )
 

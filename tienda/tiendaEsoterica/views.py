@@ -1,17 +1,21 @@
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
-from .models import Perfil, Producto, Categoria, User, Carrito, CarritoItem, Pedido
+from .models import Perfil, Producto, Categoria, User, Carrito, CarritoItem, Pedido, PedidoItem
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from .forms import PerfilUpdateForm
 from .models import Perfil
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, EnvioForm, PagoForm
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.conf import settings
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+
 
 def inicio(request):
     categorias = Categoria.objects.all()
@@ -168,6 +172,9 @@ def remove_from_cart(request, producto_id):
 def carrito_view(request):
     carrito_items = []
     total = 0
+    gastos_envio = 0
+    mensaje_gastos_envio = ""
+    
     if request.user.is_authenticated:
         carrito, created = Carrito.objects.get_or_create(user=request.user)
         carrito_items = carrito.carritoitem_set.all()
@@ -182,11 +189,26 @@ def carrito_view(request):
                 'total': producto.precio * cantidad
             })
             total += producto.precio * cantidad
-    return render(request, 'carrito.html', {'carrito_items': carrito_items, 'total': total})
+    if total < 30:
+        gastos_envio = 3
+        mensaje_gastos_envio = "+ 3€ de gastos de envío."
+
+    total_final = total + gastos_envio
+
+    return render(request, 'carrito.html', {
+        'carrito_items': carrito_items,
+        'total': total,
+        'gastos_envio': gastos_envio,
+        'total_final': total_final,
+        'mensaje_gastos_envio': mensaje_gastos_envio,
+    })
 
 def resumen_pedido(request):
     carrito_items = []
     total = 0
+    gastos_envio = 0
+    mensaje_gastos_envio = ""
+    
     if request.user.is_authenticated:
         carrito, created = Carrito.objects.get_or_create(user=request.user)
         carrito_items = carrito.carritoitem_set.all()
@@ -202,33 +224,128 @@ def resumen_pedido(request):
             })
             total += producto.precio * cantidad
     
+    if total < 30:
+        gastos_envio = 3
+        mensaje_gastos_envio = "+ 3€ de gastos de envio."
+    total_final = total + gastos_envio
+    
     if request.method == 'POST':
         envio_form = EnvioForm(request.POST)
         pago_form = PagoForm(request.POST)
-        if envio_form.is_valid() and pago_form.is_valid():
+        metodo_pago = request.POST.get('metodo_pago')
+        
+        if envio_form.is_valid() and (metodo_pago == 'contrareembolso' or pago_form.is_valid()):
+            # Crear el pedido
             pedido = Pedido.objects.create(
-                user=request.user,
+                user=request.user if request.user.is_authenticated else None,
+                email=envio_form.cleaned_data['email'],
                 estado='P',
                 direccion_envio=envio_form.cleaned_data['direccion_envio']
             )
+            
+            # Crear los ítems del pedido
             for item in carrito_items:
-                pedido.productos.add(item.producto)
-            pedido.save()
+                PedidoItem.objects.create(
+                    pedido=pedido,
+                    producto=item.producto if request.user.is_authenticated else item['producto'],
+                    cantidad=item.cantidad if request.user.is_authenticated else item['cantidad']
+                )
+            
+            # Limpiar el carrito después de procesar el pedido
             if request.user.is_authenticated:
-                carrito.carritoitem_set.all().delete()
+                carrito.carritoitem_set.all().delete()  # Limpiar ítems del carrito
             else:
-                request.session['carrito'] = {}
-            return redirect('confirmacion_pedido')
+                request.session['carrito'] = {}  # Limpiar el carrito en la sesión
+            
+            # Enviar el ID de seguimiento por correo electrónico
+            if not request.user.is_authenticated:
+
+                customer_email = envio_form.cleaned_data['email']
+                tracking_id = pedido.numero_seguimiento
+                html_message = render_to_string('confirmacion_pedido.html', {
+                    'product': ', '.join([f"{item.cantidad} x {item.producto.nombre}" for item in pedido.items.all()]),
+                    'amount': f"${pedido.precio_total}",
+                    'address': pedido.direccion_envio,
+                    'tracking_id': tracking_id
+                })
+                plain_message = strip_tags(html_message)
+                from_email = settings.EMAIL_HOST_USER
+                to = customer_email
+                send_mail(
+                    'Confirmación de compra',
+                    plain_message,
+                    from_email,
+                    [to],
+                    html_message=html_message,
+                    fail_silently=False,
+                )
+            
+            return redirect('confirmacion_pedido', pedido_id=pedido.id)
     else:
         envio_form = EnvioForm()
         pago_form = PagoForm()
     
-    return render(request, 'resumen_pedido.html', {'carrito_items': carrito_items, 'total': total, 'envio_form': envio_form, 'pago_form': pago_form})
+    return render(request, 'resumen_pedido.html', {
+        'envio_form': envio_form,
+        'pago_form': pago_form,
+        'carrito_items': carrito_items,
+        'total': total,
+        'gastos_envio': gastos_envio,
+        'total_final': total_final,
+        'mensaje_gastos_envio': mensaje_gastos_envio,
+    })
+    
+def seguimiento_pedido(request):
+    if request.method == 'POST':
+        tracking_id = request.POST.get('tracking_id')
+        pedido = get_object_or_404(Pedido, numero_seguimiento=tracking_id)
+        return render(request, 'seguimiento_pedido.html', {'pedido': pedido})
+    return render(request, 'seguimiento_pedido.html')
+    
+def confirmacion_pedido(request, pedido_id):
+    # Obtener el pedido del usuario
+    if request.user.is_authenticated:
+     pedido = get_object_or_404(Pedido, id=pedido_id, user=request.user)
+    else:
+        pedido = get_object_or_404(Pedido, id=pedido_id)
 
-def confirmacion_pedido(request):
-    return render(request, 'confirmacion_pedido.html')
+    # Extraer los datos necesarios del pedido
+    customer_email = pedido.email
+    product = ', '.join([f"{item.cantidad} x {item.producto.nombre}" for item in pedido.items.all()])
+    amount = f"${pedido.precio_total}"
+    address = pedido.direccion_envio
+    tracking_id = pedido.numero_seguimiento
+
+    # Renderizar la plantilla HTML
+    html_message = render_to_string('confirmacion_pedido.html', {
+        'product': product,
+        'amount': amount,
+        'address': address,
+        'tracking_id': tracking_id
+    })
+    plain_message = strip_tags(html_message)
+    from_email = settings.EMAIL_HOST_USER
+    to = customer_email
+
+    # Enviar el correo
+    send_mail(
+        'Confirmación de compra',
+        plain_message,
+        from_email,
+        [to],
+        html_message=html_message,
+        fail_silently=False,
+    )
+
+    return render(request, 'confirmacion_pedido.html', {
+        'product': product,
+        'amount': amount,
+        'address': address,
+        'tracking_id': tracking_id
+    })
 
 @login_required
 def mis_pedidos(request):
-    pedidos = Pedido.objects.filter(user=request.user)
+    pedidos = Pedido.objects.filter(user=request.user).prefetch_related('items__producto')
     return render(request, 'mis_pedidos.html', {'pedidos': pedidos})
+

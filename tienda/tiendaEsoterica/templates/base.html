@@ -76,6 +76,15 @@
                         <i class="fa-solid fa-user"></i>
                     </a>
                     {% endif %}
+                    <a href="/carrito" class="button cesta-button">
+                        Cesta <i class="fa-solid fa-cart-shopping"></i>
+                    </a>
+                    {% if not user.is_authenticated %}
+                    {% url 'seguimiento_pedido' as seguimiento_pedido_url %}
+                        {% if seguimiento_pedido_url %}
+                            <a href="{{ seguimiento_pedido_url }}" class="button">Seguimiento de Pedido</a>
+                        {% endif %}
+                    {% endif %}
                 </div>
             </nav>
         </header>
