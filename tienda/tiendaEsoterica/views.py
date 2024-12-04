@@ -257,28 +257,6 @@ def resumen_pedido(request):
             else:
                 request.session['carrito'] = {}  # Limpiar el carrito en la sesión
             
-            # Enviar el ID de seguimiento por correo electrónico
-            if not request.user.is_authenticated:
-
-                customer_email = envio_form.cleaned_data['email']
-                tracking_id = pedido.numero_seguimiento
-                html_message = render_to_string('confirmacion_pedido.html', {
-                    'product': ', '.join([f"{item.cantidad} x {item.producto.nombre}" for item in pedido.items.all()]),
-                    'amount': f"${pedido.precio_total}",
-                    'address': pedido.direccion_envio,
-                    'tracking_id': tracking_id
-                })
-                plain_message = strip_tags(html_message)
-                from_email = settings.EMAIL_HOST_USER
-                to = customer_email
-                send_mail(
-                    'Confirmación de compra',
-                    plain_message,
-                    from_email,
-                    [to],
-                    html_message=html_message,
-                    fail_silently=False,
-                )
             
             return redirect('confirmacion_pedido', pedido_id=pedido.id)
     else:
@@ -326,7 +304,7 @@ def confirmacion_pedido(request, pedido_id):
     tracking_id = pedido.numero_seguimiento
 
     # Renderizar la plantilla HTML
-    html_message = render_to_string('confirmacion_pedido.html', {
+    html_message = render_to_string('email.html', {
         'product': product,
         'amount': amount,
         'address': address,

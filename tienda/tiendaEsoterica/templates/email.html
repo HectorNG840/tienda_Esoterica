@@ -1,0 +1,17 @@
+{% extends 'base-email.html' %}
+
+{% block title %}Confirmación del Pedido{% endblock %}
+
+{% block content %}
+<main style="max-width: 600px; margin: 50px auto; text-align: center; font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+    <h2 style="color: #4CAF50; font-size: 2rem; margin-bottom: 20px;">Confirmación de Pedido</h2>
+    <p style="color: #333; font-size: 1.2rem; margin-bottom: 10px;">Gracias por tu compra. Tu pedido ha sido confirmado.</p>
+    <p style="color: #555; font-size: 1rem; margin-bottom: 20px;">Recibirás un correo electrónico con los detalles de tu pedido.</p>
+    <p style="color: #333; font-size: 1rem; margin-bottom: 10px;">Producto: {{ product }}</p>
+    <p style="color: #333; font-size: 1rem; margin-bottom: 10px;">Importe: {{ amount }}</p>
+    <p style="color: #333; font-size: 1rem; margin-bottom: 10px;">Dirección de entrega: {{ address }}</p>
+    {% if tracking_id %}
+    <p style="color: #333; font-size: 1rem; margin-bottom: 10px;">ID de seguimiento: {{ tracking_id }}</p>
+    {% endif %}
+</main>
+{% endblock %}
