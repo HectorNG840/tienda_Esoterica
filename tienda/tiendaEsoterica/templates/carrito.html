@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base-minimal.html' %}
 {% load static %}
 
 {% block title %}Carrito de Compras{% endblock %}
@@ -20,16 +20,16 @@
                             </a>
                             <p class="carrito-item-precio">Precio: <span>{{ item.producto.precio }} €</span></p>
                             <div class="carrito-item-cantidad">
-                                <form action="{% url 'add_to_cart' item.producto.id %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="cantidad" value="1">
-                                    <button type="submit" class="cantidad-boton">+</button>
-                                </form>
-                                <span class="cantidad-valor">{{ item.cantidad }}</span>
                                 <form action="{% url 'remove_from_cart' item.producto.id %}" method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="cantidad" value="-1">
                                     <button type="submit" class="cantidad-boton">-</button>
+                                </form>
+                                <span class="cantidad-valor">{{ item.cantidad }}</span>
+                                <form action="{% url 'add_to_cart' item.producto.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="cantidad" value="1">
+                                    <button type="submit" class="cantidad-boton">+</button>
                                 </form>
                             </div>
                         </div>
@@ -38,7 +38,10 @@
             </div>
             
             <div class="carrito-resumen">
-                <p class="carrito-total">Total: <span>{{ total }} €</span></p>
+                <p class="carrito-total">Total: <span>{{ total_final }} €</span></p>
+                {% if gastos_envio > 0 %}
+                    <p class="mensaje-gastos-envio">{{ mensaje_gastos_envio }}</p>
+                {% endif %}
                 <a href="{% url 'resumen_pedido' %}" class="boton-pago">Pagar</a>
             </div>
         </div>

@@ -11,35 +11,6 @@ body {
 }
 
 
-/* HEADER 
-header {
-    color: #fff;
-    padding: 1rem 0;
-    z-index: 3;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-}
-
-nav ul li {
-    margin: 0 1rem;
-}
-
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-}
-*/
-
 /* CARRUSEL */
 .carrusel {
     display: flex;
@@ -76,7 +47,8 @@ nav ul li a {
     margin: auto;
     margin-left: 10%;
     transition: transform 0.3s ease;
-    filter: saturate(1.5);
+    filter: saturate(1.4);
+    cursor: pointer;
 }
 
 .img:hover {
@@ -89,8 +61,6 @@ nav ul li a {
     top: 50%;
     cursor: pointer;
     z-index: 2;
-    width: 40px;
-    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -177,6 +147,95 @@ h2 {
     font-size: 0.8rem;
     color: #888;
     margin-top: 9px;
+}
+
+
+/* FILTRO PRECIO */
+/* Contenedor principal */
+.main-container .layout {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.layout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* Filtros */
+.filtros {
+    width: 250px;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 10%;
+}
+
+.filtros h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.filtros-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filtros-inputs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+}
+
+.filtros-inputs label {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.filtros-inputs input {
+    width: 70px;
+    padding: 5px;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: right;
+    background-color: #fff;
+}
+
+.filtros-boton {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    background-color: #8a2be2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.filtros-boton:hover {
+    background-color: #7a1be2;
+}
+
+/* Contenido principal */
+.contenido-principal {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 

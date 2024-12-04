@@ -1,14 +1,20 @@
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
-from .models import Perfil, Producto, Categoria, User, Carrito, CarritoItem, Pedido
+from .models import Perfil, Producto, Categoria, User, Carrito, CarritoItem, Pedido, PedidoItem
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from .forms import PerfilUpdateForm
 from .models import Perfil
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, EnvioForm, PagoForm
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.conf import settings
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 def inicio(request):
@@ -16,23 +22,38 @@ def inicio(request):
 
     query = request.GET.get('search', '').strip()
     categoria_id = request.GET.get('categoria', None)
+    precio_min = request.GET.get('precio_min')
+    precio_max = request.GET.get('precio_max')
 
     productos = Producto.objects.all()
     if categoria_id:
         productos = productos.filter(categoria_id=categoria_id)
     if query:
         productos = productos.filter(nombre__icontains=query)
+    if precio_min:
+        productos = productos.filter(precio__gte=precio_min)
+    if precio_max:
+        productos = productos.filter(precio__lte=precio_max)
 
     return render(request, 'inicio.html', {
         'productos': productos,
         'categorias': categorias,
+        'precio_min': precio_min,
+        'precio_max': precio_max,
     })
 
 
 @login_required
 def perfil(request):
-    perfil = Perfil.objects.get(user=request.user)
+    if request.user.is_superuser:
+        return HttpResponseRedirect(reverse('admin:index'))  # Redirigir al panel de administración
+    try:
+        perfil = Perfil.objects.get(user=request.user)
+    except Perfil.DoesNotExist:
+        # Si el perfil no existe, podrías redirigir al usuario a una página para crearlo o mostrar un error
+        return redirect('crear_perfil')  # Ajusta esta ruta según tus necesidades
     return render(request, 'perfil.html', {'perfil': perfil})
+
 
 
 def register(request):
@@ -87,14 +108,21 @@ def editar_perfil(request):
     if request.method == 'POST':
         form = PerfilUpdateForm(request.POST, instance=perfil)
         if form.is_valid():
-            form.save()
-            return redirect('perfil')  # Redirigir al perfil después de guardar los cambios
+            form.save()  # El formulario ya maneja el valor de fecha_nacimiento
+            return redirect('perfil')
     else:
         form = PerfilUpdateForm(instance=perfil)
     return render(request, 'editar_perfil.html', {'form': form})
+
+
+def quienes_somos(request):
+    return render(request, 'quienes_somos.html')
+
 def add_to_cart(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
     cantidad = int(request.POST.get('cantidad', 1))
+    if producto.cantidad < cantidad:
+        return redirect('producto_detalle', pk=producto_id)
     if request.user.is_authenticated:
         carrito, created = Carrito.objects.get_or_create(user=request.user)
     else:
@@ -112,6 +140,8 @@ def add_to_cart(request, producto_id):
     else:
         carrito_item.cantidad = cantidad
     carrito_item.save()
+    producto.cantidad -= cantidad
+    producto.save()
     return redirect('carrito')
 
 def remove_from_cart(request, producto_id):
@@ -133,11 +163,18 @@ def remove_from_cart(request, producto_id):
             else:
                 del carrito[str(producto_id)]
         request.session['carrito'] = carrito
+
+    producto.cantidad -= cantidad
+    producto.save()
+    
     return redirect('carrito')
 
 def carrito_view(request):
     carrito_items = []
     total = 0
+    gastos_envio = 0
+    mensaje_gastos_envio = ""
+    
     if request.user.is_authenticated:
         carrito, created = Carrito.objects.get_or_create(user=request.user)
         carrito_items = carrito.carritoitem_set.all()
@@ -152,11 +189,26 @@ def carrito_view(request):
                 'total': producto.precio * cantidad
             })
             total += producto.precio * cantidad
-    return render(request, 'carrito.html', {'carrito_items': carrito_items, 'total': total})
+    if total < 30:
+        gastos_envio = 3
+        mensaje_gastos_envio = "+ 3€ de gastos de envío."
+
+    total_final = total + gastos_envio
+
+    return render(request, 'carrito.html', {
+        'carrito_items': carrito_items,
+        'total': total,
+        'gastos_envio': gastos_envio,
+        'total_final': total_final,
+        'mensaje_gastos_envio': mensaje_gastos_envio,
+    })
 
 def resumen_pedido(request):
     carrito_items = []
     total = 0
+    gastos_envio = 0
+    mensaje_gastos_envio = ""
+    
     if request.user.is_authenticated:
         carrito, created = Carrito.objects.get_or_create(user=request.user)
         carrito_items = carrito.carritoitem_set.all()
@@ -172,33 +224,115 @@ def resumen_pedido(request):
             })
             total += producto.precio * cantidad
     
+    if total < 30:
+        gastos_envio = 3
+        mensaje_gastos_envio = "+ 3€ de gastos de envio."
+    total_final = total + gastos_envio
+    
     if request.method == 'POST':
         envio_form = EnvioForm(request.POST)
         pago_form = PagoForm(request.POST)
-        if envio_form.is_valid() and pago_form.is_valid():
+        metodo_pago = request.POST.get('metodo_pago')
+        
+        if envio_form.is_valid() and (metodo_pago == 'contrareembolso' or pago_form.is_valid()):
+            # Crear el pedido
             pedido = Pedido.objects.create(
-                user=request.user,
+                user=request.user if request.user.is_authenticated else None,
+                email=envio_form.cleaned_data['email'],
                 estado='P',
                 direccion_envio=envio_form.cleaned_data['direccion_envio']
             )
+            
+            # Crear los ítems del pedido
             for item in carrito_items:
-                pedido.productos.add(item.producto)
-            pedido.save()
+                PedidoItem.objects.create(
+                    pedido=pedido,
+                    producto=item.producto if request.user.is_authenticated else item['producto'],
+                    cantidad=item.cantidad if request.user.is_authenticated else item['cantidad']
+                )
+            
+            # Limpiar el carrito después de procesar el pedido
             if request.user.is_authenticated:
-                carrito.carritoitem_set.all().delete()
+                carrito.carritoitem_set.all().delete()  # Limpiar ítems del carrito
             else:
-                request.session['carrito'] = {}
-            return redirect('confirmacion_pedido')
+                request.session['carrito'] = {}  # Limpiar el carrito en la sesión
+            
+            
+            return redirect('confirmacion_pedido', pedido_id=pedido.id)
     else:
         envio_form = EnvioForm()
         pago_form = PagoForm()
     
-    return render(request, 'resumen_pedido.html', {'carrito_items': carrito_items, 'total': total, 'envio_form': envio_form, 'pago_form': pago_form})
+    return render(request, 'resumen_pedido.html', {
+        'envio_form': envio_form,
+        'pago_form': pago_form,
+        'carrito_items': carrito_items,
+        'total': total,
+        'gastos_envio': gastos_envio,
+        'total_final': total_final,
+        'mensaje_gastos_envio': mensaje_gastos_envio,
+    })
 
-def confirmacion_pedido(request):
-    return render(request, 'confirmacion_pedido.html')
+
+def seguimiento_pedido(request):
+    pedido = None  # Inicializa la variable del pedido como None
+    searched = False  # Indica si se ha realizado una búsqueda
+
+    if request.method == 'POST':
+        searched = True  # El usuario hizo clic en buscar
+        tracking_id = request.POST.get('tracking_id')
+        try:
+            pedido = Pedido.objects.get(numero_seguimiento=tracking_id)
+        except Pedido.DoesNotExist:
+            pedido = None  # Pedido no encontrado
+
+    return render(request, 'seguimiento_pedido.html', {'pedido': pedido, 'searched': searched})
+
+    
+def confirmacion_pedido(request, pedido_id):
+    # Obtener el pedido del usuario
+    if request.user.is_authenticated:
+     pedido = get_object_or_404(Pedido, id=pedido_id, user=request.user)
+    else:
+        pedido = get_object_or_404(Pedido, id=pedido_id)
+
+    # Extraer los datos necesarios del pedido
+    customer_email = pedido.email
+    product = ', '.join([f"{item.cantidad} x {item.producto.nombre}" for item in pedido.items.all()])
+    amount = f"${pedido.precio_total}"
+    address = pedido.direccion_envio
+    tracking_id = pedido.numero_seguimiento
+
+    # Renderizar la plantilla HTML
+    html_message = render_to_string('email.html', {
+        'product': product,
+        'amount': amount,
+        'address': address,
+        'tracking_id': tracking_id
+    })
+    plain_message = strip_tags(html_message)
+    from_email = settings.EMAIL_HOST_USER
+    to = customer_email
+
+    # Enviar el correo
+    send_mail(
+        'Confirmación de compra',
+        plain_message,
+        from_email,
+        [to],
+        html_message=html_message,
+        fail_silently=False,
+    )
+
+    return render(request, 'confirmacion_pedido.html', {
+        'product': product,
+        'amount': amount,
+        'address': address,
+        'tracking_id': tracking_id
+    })
 
 @login_required
 def mis_pedidos(request):
-    pedidos = Pedido.objects.filter(user=request.user)
+    pedidos = Pedido.objects.filter(user=request.user).prefetch_related('items__producto')
     return render(request, 'mis_pedidos.html', {'pedidos': pedidos})
+

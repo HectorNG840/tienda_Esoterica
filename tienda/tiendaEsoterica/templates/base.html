@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
     <link rel="shortcut icon" type="image/png" href="{% static 'images/logoMisterio.png' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.5.0/nouislider.min.js"></script>
 
 </head>
 <body>
@@ -59,13 +61,26 @@
                 </div>
 
                 <div class="nav-links">
+                    <a href="{% url 'quienes_somos' %}"  class="button cesta-button">Quiénes Somos</a>
+                    
                     {% if user.is_authenticated %}
-                    <a href="/perfil/" class="button">Mi Perfil</a>
+                    <a href="/perfil/" class="button">
+                        <i class="fa-solid fa-user" style="margin-right: 5px;"></i>
+                        {{ user.first_name }}
+                    </a>
                     {% else %}
-                    <a href="/login/" class="button">Iniciar Sesión</a>
+                    <a href="/login/" class="button">
+                        <i class="fa-solid fa-user"></i>
+                    </a>
+                    {% endif %}
+                    {% if not user.is_authenticated %}
+                    {% url 'seguimiento_pedido' as seguimiento_pedido_url %}
+                        {% if seguimiento_pedido_url %}
+                            <a href="{{ seguimiento_pedido_url }}" class="button">Pedidos</a>
+                        {% endif %}
                     {% endif %}
                     <a href="/carrito" class="button cesta-button">
-                        Cesta <i class="fa-solid fa-cart-shopping"></i>
+                        <i class="fa-solid fa-cart-shopping"></i>
                     </a>
                 </div>
             </nav>

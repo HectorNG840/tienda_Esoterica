@@ -1,4 +1,4 @@
-{% extends 'base-minimal.html' %}
+{% extends 'base-email.html' %}
 
 {% block title %}Confirmación del Pedido{% endblock %}
 
@@ -13,10 +13,5 @@
     {% if tracking_id %}
     <p style="color: #333; font-size: 1rem; margin-bottom: 10px;">ID de seguimiento: {{ tracking_id }}</p>
     {% endif %}
-    <p>
-        <a href="{% url 'inicio' %}" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: #fff; text-decoration: none; font-weight: bold; border-radius: 5px; transition: background-color 0.3s;">
-            Volver al inicio
-        </a>
-    </p>
 </main>
 {% endblock %}

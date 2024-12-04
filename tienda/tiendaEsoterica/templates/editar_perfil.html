@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base-minimal.html' %}
 {% load static %}
 
 {% block title %}Editar Perfil{% endblock %}
@@ -14,6 +14,7 @@
             <button type="submit" class="btn btn-success">Guardar Cambios</button>
             <a href="{% url 'perfil' %}" class="btn btn-danger">Descartar Cambios</a>
         </div>
-    </form>
+    </form>    
+        
 </div>
 {% endblock %}

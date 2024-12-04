@@ -15,13 +15,15 @@ html, body {
 }
 
 header {
-    background: linear-gradient(360deg, #e519f0 0%, #c639ea 50%, #7729d7 100%);
+    background: #000;
     color: #fff;
-    padding: 0.1px 0;
     text-align: center;
-    position: fixed;
     width: 100%;
     z-index: 10;
+    position: relative;
+    height: 65px;
+    overflow: visible;
+    position: fixed;
 }
 
 
@@ -33,32 +35,36 @@ nav.appnavbar {
     padding: 0 20px;
     background-image: url("../images/fondoNav.png");
     background-size: cover; /* Ajusta el tamaño de la imagen para cubrir toda la barra */
-    background-position: center
+    background-position: center;
+    height: 100%;
 }
 
 nav.appnavbar .logo img {
-    height: 100px; /* Ajusta la altura del logo según sea necesario */
-    width: auto;  /* Mantiene la proporción del logo */
+    height: 90px;
+    width: auto;
+    position: absolute;
+    top: -12px;
+    left: 30px;
 }
 
 nav.appnavbar .search-bar {
     position: relative;
     flex: 1;
     margin: 0 20px;
-    max-width: 600px; /* Aumentar el ancho máximo de la barra de búsqueda */
+    max-width: 600px; 
 }
 
 nav.appnavbar .search-bar input {
     width: 100%;
-    padding: 10px 40px 10px 20px; /* Reducir el padding para hacer la barra más pequeña */
-    font-size: 14px; /* Reducir el tamaño de la fuente */
+    padding: 10px 40px 10px 20px; 
+    font-size: 14px; 
     border: none;
     border-radius: 5px;
 }
 
 nav.appnavbar .search-bar .search-button {
     position: absolute;
-    right: 10px; /* Mover la posición del botón más a la derecha */
+    right: 10px;
     top: 55%;
     transform: translateY(-50%);
     border: none;
@@ -66,6 +72,7 @@ nav.appnavbar .search-bar .search-button {
     cursor: pointer;
     padding: 0;
 }
+
 
 nav.appnavbar .search-bar .search-icon {
     height: 20px;
@@ -82,7 +89,7 @@ nav.appnavbar .search-bar .search-icon {
 }
 
 .search-button:hover i {
-    color: #4CAF50;
+    color: #8a2be2;
 }
 
 .search-form {
@@ -113,6 +120,7 @@ nav.appnavbar .search-bar .search-icon {
     gap: 5px;
     cursor: pointer;
     font-size: 16px;
+    font-family: 'Poppins', sans-serif;
 }
 
 .dropdown-toggle i {
@@ -159,6 +167,7 @@ nav.appnavbar .search-bar .search-icon {
     border: none;
     padding: 10px;
     font-size: 14px;
+    font-family: 'Poppins', sans-serif;
 }
 
 .search-form input[type="text"]:focus {
@@ -216,6 +225,7 @@ footer {
     display: flex;
     align-items: center;
     transition: background-color 0.3s;
+    font-size: 0.9rem;
 }
 
 .button:hover {
@@ -229,10 +239,10 @@ footer {
 
 .cesta-icon {
     margin-left: 0.5rem;
-    height: 35px; /* Ajusta el tamaño de la imagen según sea necesario */
+    height: 35px;
 }
 .producto-detalle {
-    margin-top: 20px !important; /* Añade un margen superior para separar de la navbar */
+    margin-top: 20px !important;
     display: flex;
     gap: 20px;
 }
@@ -405,7 +415,7 @@ footer {
 
 .resumen-boton {
     background: linear-gradient(360deg, #e519f0 0%, #c639ea 50%, #7729d7 100%);
-    color: #fff !important; /* Asegúrate de que el color del texto sea blanco */
+    color: #fff !important;
     padding: 10px 20px;
     text-decoration: none;
     border-radius: 5px;
@@ -414,7 +424,7 @@ footer {
 
 .resumen-boton:hover {
     transform: scale(1.1);
-    color: #fff; /* Asegúrate de que el color del texto siga siendo blanco al hacer hover */
+    color: #fff;
 }
 
 .resumen-container {
@@ -437,8 +447,8 @@ footer {
 }
 
 .resumen-item-imagen {
-    width: 80px; /* Ajusta el tamaño de la imagen */
-    height: 80px; /* Ajusta el tamaño de la imagen */
+    width: 80px;
+    height: 80px;
     object-fit: cover;
     border-radius: 10px;
 }
@@ -486,4 +496,185 @@ footer {
 
 .confirmar-boton:hover {
     background-color: #555;
+}
+
+.main-container {
+    display: flex;
+    gap: 20px;
+}
+
+.filtros {
+    flex: 1;
+    max-width: 300px;
+    margin-top: 150px;
+}
+
+.filtros-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filtros-form label {
+    font-weight: bold;
+}
+.filtros-form input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#precio-slider {
+    margin: 20px 0;
+    margin-top: 40px;
+    
+    
+}
+
+.filtros-boton {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filtros-boton:hover {
+    background-color: #555;
+}
+
+.productos {
+    flex: 3;
+}
+
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.product-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    width: calc(33.333% - 20px);
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.product-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.product-item h3 {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.product-item p {
+    margin: 5px 0;
+}
+
+
+.categoria {
+    font-size: 0.9em;
+    color: #666;
+}
+
+
+.quienes-somos {
+    background: linear-gradient(135deg, #f9f9f9, #ffffff);
+    padding: 20px 20px;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    margin: 30px auto;
+    margin-top: -40px;
+    max-width: 1000px;
+}
+
+.quienes-header h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #4b0082;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+}
+
+.quienes-content img {
+    max-width: 150px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.quienes-content p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.quienes-mvv {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 40px;
+    gap: 20px;
+}
+
+.quienes-mision, .quienes-vision, .quienes-valores {
+    flex: 1;
+    min-width: 280px;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.quienes-mvv h3 {
+    font-size: 1.5rem;
+    color: #4b0082;
+    margin-bottom: 10px;
+}
+
+.quienes-mvv ul {
+    list-style: none;
+    padding: 0;
+    color: #555;
+    line-height: 1.8;
+}
+
+/* Agregar animación */
+.quienes-content img {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@media (max-width: 950px) {
+    nav.appnavbar .logo img {
+        height: 60px;
+        width: auto;
+        position: absolute;
+        top: 4px;
+        left: -11px;
+    }
+}
+
+@media (max-width: 767px) {
+    .button {
+        font-size: 0.5rem;
+    }
 }

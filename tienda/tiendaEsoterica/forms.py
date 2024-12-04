@@ -121,12 +121,16 @@ class PerfilUpdateForm(forms.ModelForm):
         widgets = {
             'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Introduce tu teléfono'}),
             'direccion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Introduce tu dirección'}),
-            'fecha_nacimiento': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'fecha_nacimiento': forms.DateInput(attrs={'type': 'date'}),
             'codigo_postal': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Introduce tu código postal'}),
         }
+    def clean_fecha_nacimiento(self):
+        # Recuperar la instancia asociada al formulario
+        if self.instance.pk and not self.cleaned_data.get('fecha_nacimiento'):
+            # Si la fecha está vacía, devolver el valor actual
+            return self.instance.fecha_nacimiento
+        return self.cleaned_data.get('fecha_nacimiento')
 
-
-from django import forms
 
 class EnvioForm(forms.Form):
     nombre = forms.CharField(
@@ -135,6 +139,15 @@ class EnvioForm(forms.Form):
         error_messages={
             'required': 'Este campo es obligatorio.',
             'max_length': 'El nombre no puede superar los 100 caracteres.',
+        }
+    )
+    email = forms.EmailField(
+        max_length=100,
+        widget=forms.EmailInput(attrs={'class': 'form-control'}),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+            'max_length': 'El correo electrónico no puede superar los 100 caracteres.',
+            'invalid': 'Introduce una dirección de correo electrónico válida.',
         }
     )
     direccion_envio = forms.CharField(
@@ -169,9 +182,26 @@ class EnvioForm(forms.Form):
             'max_length': 'El país no puede superar los 100 caracteres.',
         }
     )
+    
+    METODO_PAGO_CHOICES = [
+        ('contrareembolso', 'Contrareembolso'),
+        ('pasarela', 'Pasarela de Pago'),
+    ]
+    
+    metodo_pago = forms.ChoiceField(
+        choices=METODO_PAGO_CHOICES,
+        widget=forms.Select(attrs={
+            'class': 'form-control metodo-pago-select'
+        }),
+        error_messages={
+            'required': 'Este campo es obligatorio.',
+        }
+    )
+
 
 class PagoForm(forms.Form):
     numero_tarjeta = forms.CharField(
+        validators=[RegexValidator(regex=r'^\d{16}$', message="El número de tarjeta debe contener exactamente 16 dígitos.")],
         max_length=16,
         label="Número de Tarjeta",
         widget=forms.TextInput(attrs={'class': 'form-control'}),
@@ -181,6 +211,8 @@ class PagoForm(forms.Form):
         }
     )
     fecha_expiracion = forms.CharField(
+        
+        validators=[RegexValidator(regex=r'^(0[1-9]|1[0-2])\/?([0-9]{2})$', message="La fecha debe estar en formato MM/AA.")],
         max_length=5,
         label="Fecha de Expiración (MM/AA)",
         widget=forms.TextInput(attrs={'class': 'form-control'}),
@@ -189,7 +221,9 @@ class PagoForm(forms.Form):
             'max_length': 'La fecha debe estar en formato MM/AA.',
         }
     )
+    
     cvv = forms.CharField(
+        validators=[RegexValidator(regex=r'^\d{3}$', message="El CVV debe contener exactamente 3 dígitos.")],
         max_length=3,
         label="CVV",
         widget=forms.TextInput(attrs={'class': 'form-control'}),
