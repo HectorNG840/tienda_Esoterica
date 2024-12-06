@@ -3,6 +3,12 @@ version: '3.8'
 services:
   web:
     build: .
+    command: >
+      sh -c "
+      python tienda/manage.py migrate &&
+      python tienda/manage.py loaddata initial_data.json &&
+      python tienda/manage.py runserver 0.0.0.0:8000
+      "
     volumes:
       - .:/app
     ports:
@@ -15,3 +21,4 @@ services:
 
 networks:
   tiendaEsoterica_network:
+    
